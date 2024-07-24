@@ -1,0 +1,982 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>JVM调优 | SherlockerSun</title><meta name="keywords" content="Java,JVM,技术分享"><meta name="author" content="SherlockerSun"><meta name="copyright" content="SherlockerSun"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="JVM调优"><meta name="application-name" content="JVM调优"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="JVM调优"><meta property="og:url" content="http://example.com/2024/07/24/JVM%E8%B0%83%E4%BC%98/index.html"><meta property="og:site_name" content="SherlockerSun"><meta property="og:description" content="原文：【JVM进阶之路】十：JVM调优总结 合集：【JVM进阶之路】 合集：【JVM调优总结】  1、调优原则JVM调优听起来很高大上，但是要认识到，JVM调优应该是Java性能优化的最后一颗子弹。  比较认可廖雪峰老师的观点，要认识到JVM调优不是常规手段，性能问题一般第一选择是优化程序，最后的"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/rick_and_morty_car_rainbow-t2.jpg?_r_=78b83e16-99cd-b209-d823-59adbc4b3930"><meta property="article:author" content="SherlockerSun"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/rick_and_morty_car_rainbow-t2.jpg?_r_=78b83e16-99cd-b209-d823-59adbc4b3930"><meta name="description" content="原文：【JVM进阶之路】十：JVM调优总结 合集：【JVM进阶之路】 合集：【JVM调优总结】  1、调优原则JVM调优听起来很高大上，但是要认识到，JVM调优应该是Java性能优化的最后一颗子弹。  比较认可廖雪峰老师的观点，要认识到JVM调优不是常规手段，性能问题一般第一选择是优化程序，最后的"><link rel="shortcut icon" href="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/bee.png"><link rel="canonical" href="http://example.com/2024/07/24/JVM%E8%B0%83%E4%BC%98/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"https://upload-bbs.miyoushe.com/upload/2023/09/03/125766904/ee23df8517f3c3e3efc4145658269c06_5714860933110284659.png"},
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: undefined,
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"晚上好👋","list":[{"greeting":"晚安😴","startTime":0,"endTime":5},{"greeting":"早上好鸭👋, 祝你一天好心情！","startTime":6,"endTime":9},{"greeting":"上午好👋, 状态很好，鼓励一下～","startTime":10,"endTime":10},{"greeting":"11点多啦, 在坚持一下就吃饭啦～","startTime":11,"endTime":11},{"greeting":"午安👋, 宝贝","startTime":12,"endTime":14},{"greeting":"🌈充实的一天辛苦啦！","startTime":14,"endTime":18},{"greeting":"19点喽, 奖励一顿丰盛的大餐吧🍔。","startTime":19,"endTime":19},{"greeting":"晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: {"mode":"both","api":"https://img2color-go.vercel.app/api?img=","cover_change":true},
+  authorStatus: {"skills":["🤖️ 数码科技爱好者","🔍 分享与热心帮助","🏠 智能家居小能手","🔨 设计开发一条龙","🤝 专修交互与设计","🏃 脚踏实地行动派","🧱 团队小组发动机","💢 壮汉人狠话不多"]},
+  algolia: {"appId":"Z7A3XW4R2I","apiKey":"12db1ad54372045549ef465881c17e743","indexName":"hexo","hits":{"per_page":6},"languages":{"input_placeholder":"输入关键词后按下回车查找","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: SherlockerSun","link":"链接: ","source":"来源: SherlockerSun","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'SherlockerSun',
+  title: 'JVM调优',
+  postAI: '',
+  pageFillDescription: '1、调优原则, 2、JVM调优的时机, 3、JVM调优的目标, 4、JVM调优的步骤, 5、JVM参数, 5.1、基本参数, 5.2、并行收集器相关参数, 5.3、CMS相关参数, 5.4、辅助信息, 6、主要工具, 6.1、JDK工具, 6.2、Linux 命令行工具, 7、常用调优策略, 7.1、选择合适的垃圾回收器, 7.2、调整内存大小, 7.3、设置符合预期的停顿时间, 7.4、调整内存区域大小比率, 7.5、调整对象升老年代的年龄, 7.6、调整大对象的标准, 7.7、调整GC的触发时机, 7.8、调整 JVM本地内存大小, 8、JVM调优实例, 8.1、网站流量浏览量暴增后网站反应页面响很慢, 8.2、后台导出数据引发的OOM, 8.3、单个缓存数据过大导致的系统CPU飚高, 8.4、CPU经常100% 问题定位, 8.5、内存飚高问题定位, 8.6、数据分析平台系统频繁 Full GC, 8.7、业务对接网关 OOM, 8.8、鉴权系统频繁长时间 Full GC原文进阶之路十调优总结合集进阶之路合集调优总结调优原则调优听起来很高大上但是要认识到调优应该是性能优化的最后一颗子弹比较认可廖雪峰老师的观点要认识到调优不是常规手段性能问题一般第一选择是优化程序最后的选择才是进行调优的自动内存管理本来就是为了将开发人员从内存管理的泥潭里拉出来即使不得不进行调优也绝对不能拍脑门就去调整参数一定要全面监控详细分析性能数据调优的时机不得不考虑进行调优的是那些情况呢内存老年代持续上涨达到设置的最大内存值次数频繁停顿时间过长超过秒应用出现等内存异常应用中有使用本地缓存且占用大量内存空间系统吞吐量与响应性能不高或下降调优的目标吞吐量延迟内存占用三者类似构成了一个不可能三角只能选择其中两个进行调优不可三者兼得延迟低停顿和低频率低内存占用高吞吐量选择了其中两个必然会会以牺牲另一个为代价下面展示了一些调优的量化目标参考实例内存使用率内存使用率秒次数或小时注意不同应用的调优量化目标是不一样的调优的步骤一般情况下调优可通过以下步骤进行分析系统系统运行情况分析日志及文件判断是否需要优化确定瓶颈问题点确定调优量化目标确定调优参数根据历史参数来调整依次确定调优内存延迟吞吐量等指标对比观察调优前后的差异不断的分析和调整直到找到合适的参数配置找到最合适的参数将这些参数应用到所有服务器并进行后续跟踪以上操作步骤中某些步骤是需要多次不断迭代完成的一般是从满足程序的内存使用需求开始的之后是时间延迟的要求最后才是吞吐量的要求要基于这个步骤来不断优化每一个步骤都是进行下一步的基础不可逆行参数下面来看一下的参数基本参数参数名称含义默认值初始堆大小内存的默认参数可以调整空余堆内存小于时就会增大堆直到的最大限制最大堆大小内存的默认参数可以调整空余堆内存大于时会减少堆直到的最小限制年轻代大小注意此处的大小是与中显示的是不同的整个堆大小年轻代大小年老代大小持久代大小增大年轻代后将会减小年老代大小此值对系统性能影响较大官方推荐配置为整个堆的设置年轻代大小年轻代最大值设置持久代初始值内存的以前设置持久代最大值内存的以前每个线程的堆栈大小以后每个线程堆栈大小为以前每个线程堆栈大小为更具应用的线程所需内存大小进行调整在相同物理内存下减小这个值能生成更多的线程但是操作系统对一个进程内的线程数还是有限制的不能无限生成经验值在左右一般小的应用如果栈不是很深应该是够用的大的应用建议使用这个选项对性能影响比较大需要严格的测试校长和选项解释很类似官方文档似乎没有解释在论坛中有这样一句话一般设置这个值就可以了年轻代包括和两个区与年老代的比值除去持久代表示年轻代与年老代所占比值为年轻代占整个堆栈的并且设置了的情况下该参数不需要进行设置区与区的大小比值设置为则两个区与一个区的比值为一个区占整个年轻代的内存页的大小不可设置过大会影响的大小原始类型的快速优化关闭这个参数需要严格的测试关闭关闭垃圾最大年龄如果设置为的话则年轻代对象不经过区直接进入年老代对于年老代比较多的应用可以提高效率如果将此值设置为一个较大值则年轻代对象会在区进行多次复制这样可以增加对象再年轻代的存活时间增加在年轻代即被回收的概率该参数只有在串行时才有效加快编译锁机制的性能改善禁用垃圾回收每兆堆空闲空间中的存活时间对象超过多大是直接在旧生代分配单位字节新生代采用时无效另一种直接在旧生代分配的情况是大的数组对象且数组中无外部引用对象占区的百分比时是否先版本的主要参数参数名称含义默认值设置持久代版本及以前版本设置最大持久代版本及以前版本版本的重要特有参数参数名称含义默认值元空间大小版本最大元空间版本并行收集器相关参数参数名称含义默认值采用此项待验证选择垃圾收集器为并行收集器此配置仅对年轻代有效即上述配置下年轻代使用并发收集而年老代仍旧使用串行收集此项待验证设置年轻代为并行收集可与收集同时使用以上会根据系统配置自行设置所以无需再设置此值并行收集器的线程数此值最好配置与处理器数目相等同样适用于年老代垃圾收集方式为并行收集这个是出现的参数选项每次年轻代垃圾回收的最长时间最大暂停时间如果无法满足此时间会自动调整年轻代大小以满足此值自动选择年轻代区大小和相应的区比例设置此选项后并行收集器会自动选择年轻代区大小和相应的区比例以达到目标系统规定的最低相应时间或者收集频率等此值建议使用并行收集器时一直打开设置垃圾回收时间占程序运行时间的百分比公式为前调用相关参数参数名称含义默认值使用内存收集测试中配置这个以后的配置失效了原因不明所以此时年轻代大小最好用设置试图是使用大量的物理内存长时间大内存使用的优化能检查计算资源内存处理器数量至少需要内存大量的内存在在的机器上已经显示有提升多少次后进行内存压缩由于并发收集器不对内存空间进行压缩整理所以运行一段时间以后会产生碎片使得运行效率降低此值设置运行多少次以后对内存空间进行压缩整理降低标记停顿在的时候对年老代的压缩是不会移动内存的因此这个非常容易产生碎片导致内存不够用因此内存的压缩这个时候就会被启用增加这个参数是个好习惯可能会影响性能但是可以消除碎片使用手动定义初始化定义开始收集禁止自行触发使用作为垃圾回收使用后开始收集为了保证不出现见下面介绍错误该值的设置需要满足以下公式计算公式设置使用到达多少比率时触发设置为增量模式用于单情况辅助信息参数名称含义默认值输出形式输出形式可与混合使用输出形式打印垃圾回收期间程序暂停的时间可与上面混合使用输出形式打印每次垃圾回收前程序未中断的执行时间可与上面混合使用输出形式打印前后的详细堆栈信息把相关日志信息记录到文件以便分析与上面几个配合使用查看空间的使用情况查看每次后新的存活周期的阈值即标识新的存活周期的阈值为主要工具工具自带了很多性能监控工具我们可以用这些工具来监测系统和排查内存性能问题命令行工具进行性能监控和问题排查的时候常常是结合操作系统本身的命令行工具来进行命令说明实时显示正在执行进程的使用率内存使用率以及系统负载等信息对操作系统的虚拟内存进程活动进行监控监控指定进程的上下文切换监控磁盘其它还有一些第三方的监控工具同样是性能分析和故障排查的利器如常用调优策略这里还是要提一下及时确定要进行调优也不要陷入知见障进行分析之后发现可以通过优化程序提升性能仍然首选优化程序选择合适的垃圾回收器单核那么毫无疑问垃圾收集器是你唯一的选择多核关注吞吐量那么选择组合多核关注用户停顿时间版本或者那么选择多核关注用户停顿时间及以上可用内存以上那么选择参数配置设置垃圾收集器新生代开启设置新生代使用功能老年代将会使用收集器开启垃圾收集器老年代开启设置垃圾收集器开启调整内存大小现象垃圾收集频率非常频繁原因如果内存太小就会导致频繁的需要进行垃圾收集才能释放出足够的空间来创建新的对象所以增加堆内存大小的效果是非常显而易见的注意如果垃圾收集次数非常频繁但是每次能回收的对象非常少那么这个时候并非内存太小而可能是内存泄露导致对象无法回收从而造成频繁参数配置设置堆初始值指令指令设置堆区最大值指令指令新生代内存配置指令指令设置符合预期的停顿时间现象程序间接性的卡顿原因如果没有确切的停顿时间设定垃圾收集器以吞吐量为主那么垃圾收集时间就会不稳定注意不要设置不切实际的停顿时间单次时间越短也意味着需要更多的次数才能回收完原有数量的垃圾参数配置停顿时间垃圾收集器会尝试用各种手段达到这个时间调整内存区域大小比率现象某一个区域的频繁其他都正常原因如果对应区域空间不足导致需要频繁来释放空间在堆内存无法增加的情况下可以调整对应区域的大小比率注意也许并非空间不足而是因为内存泄造成内存无法回收从而导致频繁参数配置区和区大小比率指令区和区占新生代比率为两个区新生代和老年代的占比表示新生代老年代即老年代占整个堆的默认值调整对象升老年代的年龄现象老年代频繁每次回收的对象很多原因如果升代年龄小新生代的对象很快就进入老年代了导致老年代对象变多而这些对象其实在随后的很短时间内就可以回收这时候可以调整对象的升级代年龄让对象不那么容易进入老年代解决老年代空间不足频繁问题注意增加了年龄之后这些对象在新生代的时间会变长可能导致新生代的频率增加并且频繁复制这些对象新生的时间也可能变长配置参数进入老年代最小的年龄年轻代对象转换为老年代对象最小年龄值默认值调整大对象的标准现象老年代频繁每次回收的对象很多而且单个对象的体积都比较大原因如果大量的大对象直接分配到老年代导致老年代容易被填满而造成频繁可设置对象直接进入老年代的标准注意这些大对象进入新生代后可能会使新生代的频率和时间增加配置参数新生代可容纳的最大对象大于则直接会分配到老年代代表没有限制调整的触发时机现象经常程序卡顿严重原因和部分阶段是并发进行的业务线程和垃圾收集线程一起工作也就说明垃圾收集的过程中业务线程会生成新的对象所以在的时候需要预留一部分内存空间来容纳新产生的对象如果这个时候内存空间不足以容纳新产生的对象那么就会停止并发收集暂停所有业务线程来保证垃圾收集的正常运行这个时候可以调整触发的时机比如在老年代占用就触发这样就可以预留足够的空间来让业务线程创建的对象有足够的空间分配注意提早触发会增加老年代的频率配置参数使用多少比例的老年代后开始收集默认是如果频繁发生卡顿应该调小混合垃圾回收周期中要包括的旧区域设置占用率阈值默认占用率为调整本地内存大小现象的次数时间和回收的对象都正常堆内存空间充足但是报原因除了堆内存之外还有一块堆外内存这片内存也叫本地内存可是这块内存区域不足了并不会主动触发只有在堆内存区域触发的时候顺带会把本地内存回收了而一旦本地内存分配不足就会直接报异常注意本地内存异常的时候除了上面的现象之外异常信息可能是解决方式除了调整本地内存大小之外也可以在出现此异常时进行捕获手动触发配置参数调优实例以下是整理自网络的一些调优实例网站流量浏览量暴增后网站反应页面响很慢问题推测在测试环境测速度比较快但是一到生产就变慢所以推测可能是因为垃圾收集导致的业务线程停顿定位为了确认推测的正确性在线上通过指令看到进行次数频率非常高所占用的时间非常长所以基本推断就是因为频率非常高所以导致业务线程经常停顿从而造成网页反应很慢解决方案因为网页访问量很高所以对象创建速度非常快导致堆内存容易填满从而频繁所以这里问题在于新生代内存太小所以这里可以增加内存就行了所以初步从原来的内存增加到内存第二个问题增加内存后的确平常的请求比较快了但是又出现了另外一个问题就是不定期的会间断性的卡顿而且单次卡顿的时间要比之前要长很多问题推测练习到是之前的优化加大了内存所以推测可能是因为内存加大了从而导致单次的时间变长从而导致间接性的卡顿定位还是通过指令查看到的确次数并不是很高但是花费在上的时间是非常高的根据日志查看到单次的时间有达到几十秒的解决方案因为默认使用的是的组合垃圾标记和收集阶段都是所以内存加大了之后需要进行垃圾回收的时间就变长了所以这里要想避免单次时间过长所以需要更换并发类的收集器因为当前的版本为所以最后选择垃圾收集器根据之前垃圾收集情况设置了一个预期的停顿的时间上线后网站再也没有了卡顿问题后台导出数据引发的问题描述公司的后台系统偶发性的引发异常堆内存溢出因为是偶发性的所以第一次简单的认为就是堆内存不足导致所以单方面的加大了堆内存从调整到但是问题依然没有解决只能从堆内存信息下手通过开启了参数获得堆内存的文件对堆文件进行分析通过查看到占用内存最大的对象是对象本来想跟踪着对象找到其引用的地方但文件太大跟踪进去的时候总是卡死而对象占用比较多也比较正常最开始也没有认定就是这里的问题于是就从线程信息里面找突破点通过线程进行分析先找到了几个正在运行的业务线程然后逐一跟进业务线程看了下代码发现有个引起我注意的方法导出订单信息因为订单信息导出这个方法可能会有几万的数据量首先要从数据库里面查询出来订单信息然后把订单信息生成这个过程会产生大量的对象为了验证自己的猜想于是准备登录后台去测试下结果在测试的过程中发现到处订单的按钮前端居然没有做点击后按钮置灰交互事件结果按钮可以一直点因为导出订单数据本来就非常慢使用的人员可能发现点击后很久后页面都没反应结果就一直点结果就大量的请求进入到后台堆内存产生了大量的订单对象和对象而且方法执行非常慢导致这一段时间内这些对象都无法被回收所以最终导致内存溢出知道了问题就容易解决了最终没有调整任何参数只是在前端的导出订单按钮上加上了置灰状态等后端响应之后按钮才可以进行点击然后减少了查询订单信息的非必要字段来减少生成对象的体积然后问题就解决了单个缓存数据过大导致的系统飚高系统发布后发现一直飚高到发现这个问题后首先要做的是定位到是哪个应用占用高通过找到了对应的一个应用占用资源如果是应用的飚高那么基本上可以定位可能是锁资源竞争或者是频繁造成的所以准备首先从的情况排查如果正常的话再从线程的角度排查首先使用指令打印出的信息结果得到得到的统计信息有明显的异常应用在运行了才几分钟的情况下的时间就占用了秒那么问这很明显就是频繁导致的飚高定位到了是的问题那么下一步就是找到频繁的原因了所以可以从两方面定位了可能是哪个地方频繁创建对象或者就是有内存泄露导致内存回收不掉根据这个思路决定把堆内存信息下来看一下使用指令把堆内存信息下来堆内存空间大的慎用这个指令否则容易导致会影响应用因为我们的堆内存空间才所以也就没考虑这个问题了把堆内存信息下来后就使用进行离线分析了首先从占用内存最多的对象中查找结果排名第三看到一个业务占用堆内存约的空间很明显这个对象是有问题的通过业务对象找到了对应的业务代码通过代码的分析找到了一个可疑之处这个业务对象是查看新闻资讯信息生成的对象由于想提升查询的效率所以把新闻资讯保存到了缓存里面每次调用资讯接口都是从缓存里面获取把新闻保存到缓存里面这个方式是没有问题的有问题的是新闻的多条数据都是保存在一个里面这样就导致每次调用查询新闻接口都会从里面把多条数据都拿出来再做筛选分页拿出条返回给前端多条数据也就意味着会产生多个对象每个对象个字节左右个对象就有这就意味着只要查看一次新闻信息就会产生至少的对象那么并发请求量只要到那么每秒钟都会产生的对象而这种大对象会被直接分配到老年代这样的话一个大小的老年代内存只需要几秒就会塞满从而触发知道了问题所在后那么就容易解决了问题是因为单个缓存过大造成的那么只需要把缓存减小就行了这里只需要把缓存以页的粒度进行缓存就行了每个缓存条作为返回给前端页的数据这样的话每次查询新闻信息只会从缓存拿出条数据就避免了此问题的产生经常问题定位问题分析高一定是某个程序长期占用了资源所以先需要找出那个进行占用高列出系统各个进程的资源占用情况然后根据找到对应进行里哪个线程占用高进程列出对应进程里面的线程占用资源情况找到对应线程后再打印出对应线程的堆栈信息把线程转换为进制打印出进程的所有线程信息从打印出来的线程信息中找到上一步转换为进制的线程对应的线程信息最后根据线程的堆栈信息定位到具体业务方法从代码逻辑中找到问题所在查看是否有线程长时间的或如果线程长期处于状态下关注说明线程在等待这把锁然后根据锁的地址找到持有锁的线程内存飚高问题定位分析内存飚高如果是发生在进程上一般是因为创建了大量对象所导致持续飚高说明垃圾回收跟不上对象创建的速度或者内存泄露导致对象无法回收先观察垃圾回收的情况查看次数时间等信息每隔一秒打印一次查看堆内存占用空间最大的前个对象类型可初步查看是哪个对象占用了内存如果每次次数频繁而且每次回收的内存空间也正常那说明是因为对象创建速度快导致内存一直占用很高如果每次回收的内存非常少那么很可能是因为内存泄露导致内存一直无法被回收导出堆内存文件快照堆内存信息到文件使用对文件进行离线分析找到占用内存高的对象再找到创建该对象的业务代码位置从代码和业务场景中定位具体问题数据分析平台系统频繁平台主要对用户在中行为进行定时分析统计并支持报表导出使用算法数据分析师在使用中发现系统页面打开经常卡顿通过命令发现系统每次后大约有的存活对象进入老年代原来是因为区空间设置过小每次后存活对象在区域放不下提前进入老年代通过调大区使得区可以容纳后存活对象对象在区经历多次达到年龄阈值才进入老年代调整之后每次后进入老年代的存活对象稳定运行时仅几百频率大大降低业务对接网关网关主要消费数据进行数据处理计算然后转发到另外的队列系统运行几个小时候出现重启系统几个小时之后又通过导出堆内存在工具分析才找出原因代码中将某个业务的数据进行日志异步打印该业务数据量较大大量对象堆积在内存中等待被打印导致鉴权系统频繁长时间系统对外提供各种账号鉴权服务使用时发现系统经常服务不可用通过的监控平台监控发现系统频繁发生长时间且触发时老年代的堆内存通常并没有占满发现原来是业务代码中调用了参考周志明编著深入理解虚拟机高级特性与最佳实践实战虚拟机故障诊断与性能优化性能调优详解如何合理的规划一次性能调优关于原理和性能调优实践看这一篇就够了应用性能调优实践实战调优策略一般的项目需要调优吗参数解读参数设置参数设置面试问题系列配置常用参数和常用调优策略的参数官方网站地址',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-24 09:45:23',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/Morty-white.png"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">SherlockerSun</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a><div id="he-plugin-simple"></div><script>var WIDGET = {
+  "CONFIG": {
+    "modules": "0124",
+    "background": "2",
+    "tmpColor": "FFFFFF",
+    "tmpSize": "16",
+    "cityColor": "FFFFFF",
+    "citySize": "16",
+    "aqiColor": "E8D87B",
+    "aqiSize": "16",
+    "weatherIconSize": "24",
+    "alertIconSize": "18",
+    "padding": "10px 10px 10px 10px",
+    "shadow": "0",
+    "language": "auto",
+    "borderRadius": "20",
+    "fixed": "true",
+    "vertical": "top",
+    "horizontal": "left",
+    "left": "20",
+    "top": "7.1",
+    "key": "df245676fb434a0691ead1c63341cd94"
+  }
+}
+</script><link rel="stylesheet" href="https://widget.qweather.net/simple/static/css/he-simple.css?v=1.4.0"/><script src="https://widget.qweather.net/simple/static/js/he-simple.js?v=1.4.0"></script></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 总览</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/games/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 游戏页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索🔍" accesskey="s"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span> 搜索</span></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/JVM/" style="font-size: 1.05rem;">JVM<sup>1</sup></a><a href="/tags/Java/" style="font-size: 1.05rem;">Java<sup>2</sup></a><a href="/tags/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" style="font-size: 1.05rem;">技术分享<sup>1</sup></a><a href="/tags/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" style="font-size: 1.05rem;">面试总结<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">七月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url">技术分享</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/Java/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Java</span></a><a class="article-meta__tags" href="/tags/JVM/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>JVM</span></a><a class="article-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>技术分享</span></a></span></div></div><h1 class="post-title" itemprop="name headline">JVM调优</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2024-07-24T01:44:15.000Z" title="发表于 2024-07-24 09:44:15">2024-07-24</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2024-07-24T01:45:23.044Z" title="更新于 2024-07-24 09:45:23">2024-07-24</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为杭州"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>杭州</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/rick_and_morty_car_rainbow-t2.jpg?_r_=78b83e16-99cd-b209-d823-59adbc4b3930"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2024/07/24/JVM%E8%B0%83%E4%BC%98/"><header><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url">技术分享</a><a href="/tags/Java/" tabindex="-1" itemprop="url">Java</a><a href="/tags/JVM/" tabindex="-1" itemprop="url">JVM</a><a href="/tags/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" tabindex="-1" itemprop="url">技术分享</a><h1 id="CrawlerTitle" itemprop="name headline">JVM调优</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">SherlockerSun</span><time itemprop="dateCreated datePublished" datetime="2024-07-24T01:44:15.000Z" title="发表于 2024-07-24 09:44:15">2024-07-24</time><time itemprop="dateCreated datePublished" datetime="2024-07-24T01:45:23.044Z" title="更新于 2024-07-24 09:45:23">2024-07-24</time></header><blockquote>
+<p>原文：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/three-fighter/p/14644152.html">【JVM进阶之路】十：JVM调优总结</a></p>
+<p>合集：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/three-fighter/tag/JVM/">【JVM进阶之路】</a></p>
+<p>合集：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/andy-zhou/p/5327288.html">【JVM调优总结】</a></p>
+</blockquote>
+<h1 id="1、调优原则"><a href="#1、调优原则" class="headerlink" title="1、调优原则"></a>1、调优原则</h1><p>JVM调优听起来很高大上，但是要认识到，JVM调优应该是Java性能优化的最后一颗子弹。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/c9acc15e9b0c2fffc9b3e2865726fd62.png" alt="Java项目需要调优吗"></p>
+<p>比较认可廖雪峰老师的观点，要认识到JVM调优不是常规手段，性能问题一般第一选择是优化程序，最后的选择才是进行JVM调优。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/c4034a5794ccb3b71eaddab18a448529.png" alt="调优层级"></p>
+<p>JVM的自动内存管理本来就是为了将开发人员从内存管理的泥潭里拉出来。即使不得不进行JVM调优，也绝对不能拍脑门就去调整参数，一定要全面监控，详细分析性能数据。</p>
+<h1 id="2、JVM调优的时机"><a href="#2、JVM调优的时机" class="headerlink" title="2、JVM调优的时机"></a>2、JVM调优的时机</h1><p>不得不考虑进行JVM调优的是那些情况呢？</p>
+<ul>
+<li>Heap内存（老年代）持续上涨达到设置的最大内存值；</li>
+<li>Full GC 次数频繁；</li>
+<li>GC 停顿时间过长（超过1秒）；</li>
+<li>应用出现OutOfMemory 等内存异常；</li>
+<li>应用中有使用本地缓存且占用大量内存空间；</li>
+<li>系统吞吐量与响应性能不高或下降。</li>
+</ul>
+<h1 id="3、JVM调优的目标"><a href="#3、JVM调优的目标" class="headerlink" title="3、JVM调优的目标"></a>3、JVM调优的目标</h1><p>吞吐量、延迟、内存占用三者类似CAP，构成了一个不可能三角，只能选择其中两个进行调优，不可三者兼得。</p>
+<ul>
+<li>延迟：GC低停顿和GC低频率；</li>
+<li>低内存占用；</li>
+<li>高吞吐量;</li>
+</ul>
+<p>选择了其中两个，必然会会以牺牲另一个为代价。</p>
+<p>下面展示了一些JVM调优的量化目标参考实例：</p>
+<ul>
+<li>Heap 内存使用率 &lt;&#x3D; 70%;</li>
+<li>Old generation内存使用率&lt;&#x3D; 70%;</li>
+<li>avgpause &lt;&#x3D; 1秒;</li>
+<li>Full gc 次数0 或 avg pause interval &gt;&#x3D; 24小时 ;</li>
+</ul>
+<p>注意：不同应用的JVM调优量化目标是不一样的。</p>
+<h1 id="4、JVM调优的步骤"><a href="#4、JVM调优的步骤" class="headerlink" title="4、JVM调优的步骤"></a>4、JVM调优的步骤</h1><p>一般情况下，JVM调优可通过以下步骤进行：</p>
+<ul>
+<li>分析系统系统运行情况：分析GC日志及dump文件，判断是否需要优化，确定瓶颈问题点；</li>
+<li>确定JVM调优量化目标；</li>
+<li>确定JVM调优参数（根据历史JVM参数来调整）；</li>
+<li>依次确定调优内存、延迟、吞吐量等指标；</li>
+<li>对比观察调优前后的差异；</li>
+<li>不断的分析和调整，直到找到合适的JVM参数配置；</li>
+<li>找到最合适的参数，将这些参数应用到所有服务器，并进行后续跟踪。</li>
+</ul>
+<p>以上操作步骤中，某些步骤是需要多次不断迭代完成的。一般是从满足程序的内存使用需求开始的，之后是时间延迟的要求，最后才是吞吐量的要求，要基于这个步骤来不断优化，每一个步骤都是进行下一步的基础，不可逆行。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/ff1b03819c6d6eea7fa0fc45ce1fa774.png" alt="JVM调优步骤"></p>
+<h1 id="5、JVM参数"><a href="#5、JVM参数" class="headerlink" title="5、JVM参数"></a>5、JVM参数</h1><p>下面来看一下JDK的JVM参数。</p>
+<h2 id="5-1、基本参数"><a href="#5-1、基本参数" class="headerlink" title="5.1、基本参数"></a>5.1、基本参数</h2><table>
+<thead>
+<tr>
+<th><strong>参数名称</strong></th>
+<th><strong>含义</strong></th>
+<th><strong>默认值</strong></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-Xms</td>
+<td>初始堆大小</td>
+<td>内存的1&#x2F;64</td>
+<td>默认(MinHeapFreeRatio参数可以调整)空余堆内存小于40%时，JVM就会增大堆直到-Xmx的最大限制.</td>
+</tr>
+<tr>
+<td>-Xmx</td>
+<td>最大堆大小</td>
+<td>内存的1&#x2F;4</td>
+<td>默认(MaxHeapFreeRatio参数可以调整)空余堆内存大于70%时，JVM会减少堆直到 -Xms的最小限制</td>
+</tr>
+<tr>
+<td>-Xmn</td>
+<td>年轻代大小</td>
+<td></td>
+<td><strong>注意</strong>：此处的大小是（eden+ 2 survivor space).与jmap -heap中显示的New gen是不同的。 整个堆大小&#x3D;年轻代大小 + 年老代大小 + 持久代大小. 增大年轻代后,将会减小年老代大小.此值对系统性能影响较大,Sun官方推荐配置为整个堆的3&#x2F;8</td>
+</tr>
+<tr>
+<td>-XX:NewSize</td>
+<td>设置年轻代大小</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-XX:MaxNewSize</td>
+<td>年轻代最大值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-XX:PermSize</td>
+<td>设置持久代(perm gen)初始值</td>
+<td>内存的1&#x2F;64</td>
+<td>JDK1.8以前</td>
+</tr>
+<tr>
+<td>-XX:MaxPermSize</td>
+<td>设置持久代最大值</td>
+<td>内存的1&#x2F;4</td>
+<td>JDK1.8以前</td>
+</tr>
+<tr>
+<td>-Xss</td>
+<td>每个线程的堆栈大小</td>
+<td></td>
+<td>JDK5.0以后每个线程堆栈大小为1M,以前每个线程堆栈大小为256K.更具应用的线程所需内存大小进行 调整.在相同物理内存下,减小这个值能生成更多的线程.但是操作系统对一个进程内的线程数还是有限制的,不能无限生成,经验值在3000~5000左右 一般小的应用， 如果栈不是很深， 应该是128k够用的 大的应用建议使用256k。这个选项对性能影响比较大，需要严格的测试。（校长） 和threadstacksize选项解释很类似,官方文档似乎没有解释,在论坛中有这样一句话:”” -Xss is translated in a VM flag named ThreadStackSize” 一般设置这个值就可以了。</td>
+</tr>
+<tr>
+<td>-<em>XX:ThreadStackSize</em></td>
+<td>Thread Stack Size</td>
+<td></td>
+<td>(0 means use default stack size) [Sparc: 512; Solaris x86: 320 (was 256 prior in 5.0 and earlier); Sparc 64 bit: 1024; Linux amd64: 1024 (was 0 in 5.0 and earlier); all others 0.]</td>
+</tr>
+<tr>
+<td>-XX:NewRatio</td>
+<td>年轻代(包括Eden和两个Survivor区)与年老代的比值(除去持久代)</td>
+<td></td>
+<td>-XX:NewRatio&#x3D;4表示年轻代与年老代所占比值为1:4,年轻代占整个堆栈的1&#x2F;5 Xms&#x3D;Xmx并且设置了Xmn的情况下，该参数不需要进行设置。</td>
+</tr>
+<tr>
+<td>-XX:SurvivorRatio</td>
+<td>Eden区与Survivor区的大小比值</td>
+<td></td>
+<td>设置为8,则两个Survivor区与一个Eden区的比值为2:8,一个Survivor区占整个年轻代的1&#x2F;10</td>
+</tr>
+<tr>
+<td>-XX:LargePageSizeInBytes</td>
+<td>内存页的大小不可设置过大， 会影响Perm的大小</td>
+<td></td>
+<td>&#x3D;128m</td>
+</tr>
+<tr>
+<td>-XX:+UseFastAccessorMethods</td>
+<td>原始类型的快速优化</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-XX:+DisableExplicitGC</td>
+<td>关闭System.gc()</td>
+<td></td>
+<td>这个参数需要严格的测试</td>
+</tr>
+<tr>
+<td>-XX:+ExplicitGCInvokesConcurrent</td>
+<td>关闭System.gc()</td>
+<td>disabled</td>
+<td>Enables invoking of concurrent GC by using the System.gc() request. This option is disabled by default and can be enabled only together with the -XX:+UseConcMarkSweepGC option.</td>
+</tr>
+<tr>
+<td>-XX:+ExplicitGCInvokesConcurrentAndUnloadsClasses</td>
+<td>关闭System.gc()</td>
+<td>disabled</td>
+<td>Enables invoking of concurrent GC by using the System.gc() request and unloading of classes during the concurrent GC cycle. This option is disabled by default and can be enabled only together with the -XX:+UseConcMarkSweepGC option.</td>
+</tr>
+<tr>
+<td>-XX:MaxTenuringThreshold</td>
+<td>垃圾最大年龄</td>
+<td></td>
+<td>如果设置为0的话,则年轻代对象不经过Survivor区,直接进入年老代. 对于年老代比较多的应用,可以提高效率.如果将此值设置为一个较大值,则年轻代对象会在Survivor区进行多次复制,这样可以增加对象再年轻代的存活 时间,增加在年轻代即被回收的概率 该参数只有在串行GC时才有效.</td>
+</tr>
+<tr>
+<td>-XX:+AggressiveOpts</td>
+<td>加快编译</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-XX:+UseBiasedLocking</td>
+<td>锁机制的性能改善</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-Xnoclassgc</td>
+<td>禁用垃圾回收</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-XX:SoftRefLRUPolicyMSPerMB</td>
+<td>每兆堆空闲空间中SoftReference的存活时间</td>
+<td>1s</td>
+<td>softly reachable objects will remain alive for some amount of time after the last time they were referenced. The default value is one second of lifetime per free megabyte in the heap</td>
+</tr>
+<tr>
+<td>-XX:PretenureSizeThreshold</td>
+<td>对象超过多大是直接在旧生代分配</td>
+<td>0</td>
+<td>单位字节 新生代采用Parallel Scavenge GC时无效 另一种直接在旧生代分配的情况是大的数组对象,且数组中无外部引用对象.</td>
+</tr>
+<tr>
+<td>-XX:TLABWasteTargetPercent</td>
+<td>TLAB占eden区的百分比</td>
+<td>1%</td>
+<td></td>
+</tr>
+<tr>
+<td>-XX:+<em>CollectGen0First</em></td>
+<td>FullGC时是否先YGC</td>
+<td>false</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>Jdk7版本的主要参数</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>参数名称</strong></th>
+<th><strong>含义</strong></th>
+<th><strong>默认值</strong></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-XX:PermSize</td>
+<td>设置持久代</td>
+<td></td>
+<td>Jdk7版本及以前版本</td>
+</tr>
+<tr>
+<td>-XX:MaxPermSize</td>
+<td>设置最大持久代</td>
+<td></td>
+<td>Jdk7版本及以前版本</td>
+</tr>
+</tbody></table>
+<p><strong>Jdk8版本的重要特有参数</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>参数名称</strong></th>
+<th><strong>含义</strong></th>
+<th><strong>默认值</strong></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-XX:MetaspaceSize</td>
+<td>元空间大小</td>
+<td></td>
+<td>Jdk8版本</td>
+</tr>
+<tr>
+<td>-XX:MaxMetaspaceSize</td>
+<td>最大元空间</td>
+<td></td>
+<td>Jdk8版本</td>
+</tr>
+</tbody></table>
+<h2 id="5-2、并行收集器相关参数"><a href="#5-2、并行收集器相关参数" class="headerlink" title="5.2、并行收集器相关参数"></a>5.2、并行收集器相关参数</h2><table>
+<thead>
+<tr>
+<th><strong>参数名称</strong></th>
+<th><strong>含义</strong></th>
+<th><strong>默认值</strong></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-XX:+UseParallelGC</td>
+<td>Full GC采用parallel MSC (此项待验证)</td>
+<td></td>
+<td>选择垃圾收集器为并行收集器.此配置仅对年轻代有效.即上述配置下,年轻代使用并发收集,而年老代仍旧使用串行收集.(此项待验证)</td>
+</tr>
+<tr>
+<td>-XX:+UseParNewGC</td>
+<td>设置年轻代为并行收集</td>
+<td></td>
+<td>可与CMS收集同时使用 JDK5.0以上,JVM会根据系统配置自行设置,所以无需再设置此值</td>
+</tr>
+<tr>
+<td>-XX:ParallelGCThreads</td>
+<td>并行收集器的线程数</td>
+<td></td>
+<td>此值最好配置与处理器数目相等 同样适用于CMS</td>
+</tr>
+<tr>
+<td>-XX:+UseParallelOldGC</td>
+<td>年老代垃圾收集方式为并行收集(Parallel Compacting)</td>
+<td></td>
+<td>这个是JAVA 6出现的参数选项</td>
+</tr>
+<tr>
+<td>-XX:MaxGCPauseMillis</td>
+<td>每次年轻代垃圾回收的最长时间(最大暂停时间)</td>
+<td></td>
+<td>如果无法满足此时间,JVM会自动调整年轻代大小,以满足此值.</td>
+</tr>
+<tr>
+<td>-XX:+UseAdaptiveSizePolicy</td>
+<td>自动选择年轻代区大小和相应的Survivor区比例</td>
+<td></td>
+<td>设置此选项后,并行收集器会自动选择年轻代区大小和相应的Survivor区比例,以达到目标系统规定的最低相应时间或者收集频率等,此值建议使用并行收集器时,一直打开.</td>
+</tr>
+<tr>
+<td>-XX:GCTimeRatio</td>
+<td>设置垃圾回收时间占程序运行时间的百分比</td>
+<td></td>
+<td>公式为1&#x2F;(1+n)</td>
+</tr>
+<tr>
+<td>-XX:+<em>ScavengeBeforeFullGC</em></td>
+<td>Full GC前调用YGC</td>
+<td>true</td>
+<td>Do young generation GC prior to a full GC. (Introduced in 1.4.1.)</td>
+</tr>
+</tbody></table>
+<h2 id="5-3、CMS相关参数"><a href="#5-3、CMS相关参数" class="headerlink" title="5.3、CMS相关参数"></a>5.3、CMS相关参数</h2><table>
+<thead>
+<tr>
+<th><strong>参数名称</strong></th>
+<th><strong>含义</strong></th>
+<th><strong>默认值</strong></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-XX:+UseConcMarkSweepGC</td>
+<td>使用CMS内存收集</td>
+<td></td>
+<td>测试中配置这个以后,-XX:NewRatio&#x3D;4的配置失效了,原因不明.所以,此时年轻代大小最好用-Xmn设置.???</td>
+</tr>
+<tr>
+<td>-XX:+AggressiveHeap</td>
+<td></td>
+<td></td>
+<td>试图是使用大量的物理内存 长时间大内存使用的优化，能检查计算资源（内存， 处理器数量） 至少需要256MB内存 大量的CPU／内存， （在1.4.1在4CPU的机器上已经显示有提升）</td>
+</tr>
+<tr>
+<td>-XX:CMSFullGCsBeforeCompaction</td>
+<td>多少次后进行内存压缩</td>
+<td></td>
+<td>由于并发收集器不对内存空间进行压缩,整理,所以运行一段时间以后会产生”碎片”,使得运行效率降低.此值设置运行多少次GC以后对内存空间进行压缩,整理.</td>
+</tr>
+<tr>
+<td>-XX:+CMSParallelRemarkEnabled</td>
+<td>降低标记停顿</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-XX+UseCMSCompactAtFullCollection</td>
+<td>在FULL GC的时候， 对年老代的压缩</td>
+<td></td>
+<td>CMS是不会移动内存的， 因此， 这个非常容易产生碎片， 导致内存不够用， 因此， 内存的压缩这个时候就会被启用。 增加这个参数是个好习惯。 可能会影响性能,但是可以消除碎片</td>
+</tr>
+<tr>
+<td>-XX:+UseCMSInitiatingOccupancyOnly</td>
+<td>使用手动定义初始化定义开始CMS收集</td>
+<td></td>
+<td>禁止hostspot自行触发CMS GC</td>
+</tr>
+<tr>
+<td>-XX:CMSInitiatingOccupancyFraction&#x3D;70</td>
+<td>使用cms作为垃圾回收 使用70％后开始CMS收集</td>
+<td>92</td>
+<td>为了保证不出现promotion failed(见下面介绍)错误,该值的设置需要满足以下公式<strong>CMSInitiatingOccupancyFraction计算公式</strong></td>
+</tr>
+<tr>
+<td>-XX:CMSInitiatingPermOccupancyFraction</td>
+<td>设置Perm Gen使用到达多少比率时触发</td>
+<td>92</td>
+<td></td>
+</tr>
+<tr>
+<td>-XX:+CMSIncrementalMode</td>
+<td>设置为增量模式</td>
+<td></td>
+<td>用于单CPU情况</td>
+</tr>
+<tr>
+<td>-XX:+CMSClassUnloadingEnabled</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="5-4、辅助信息"><a href="#5-4、辅助信息" class="headerlink" title="5.4、辅助信息"></a>5.4、辅助信息</h2><table>
+<thead>
+<tr>
+<th><strong>参数名称</strong></th>
+<th><strong>含义</strong></th>
+<th><strong>默认值</strong></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-XX:+PrintGC</td>
+<td></td>
+<td></td>
+<td>输出形式: [GC 118250K-&gt;113543K(130112K), 0.0094143 secs] [Full GC 121376K-&gt;10414K(130112K), 0.0650971 secs]</td>
+</tr>
+<tr>
+<td>-XX:+PrintGCDetails</td>
+<td></td>
+<td></td>
+<td>输出形式:[GC [DefNew: 8614K-&gt;781K(9088K), 0.0123035 secs] 118250K-&gt;113543K(130112K), 0.0124633 secs] [GC [DefNew: 8614K-&gt;8614K(9088K), 0.0000665 secs][Tenured: 112761K-&gt;10414K(121024K), 0.0433488 secs] 121376K-&gt;10414K(130112K), 0.0436268 secs]</td>
+</tr>
+<tr>
+<td>-XX:+PrintGCTimeStamps</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-XX:+PrintGC:PrintGCTimeStamps</td>
+<td></td>
+<td></td>
+<td>可与-XX:+PrintGC -XX:+PrintGCDetails混合使用 输出形式:11.851: [GC 98328K-&gt;93620K(130112K), 0.0082960 secs]</td>
+</tr>
+<tr>
+<td>-XX:+PrintGCApplicationStoppedTime</td>
+<td>打印垃圾回收期间程序暂停的时间.可与上面混合使用</td>
+<td></td>
+<td>输出形式:Total time for which application threads were stopped: 0.0468229 seconds</td>
+</tr>
+<tr>
+<td>-XX:+PrintGCApplicationConcurrentTime</td>
+<td>打印每次垃圾回收前,程序未中断的执行时间.可与上面混合使用</td>
+<td></td>
+<td>输出形式:Application time: 0.5291524 seconds</td>
+</tr>
+<tr>
+<td>-XX:+PrintHeapAtGC</td>
+<td>打印GC前后的详细堆栈信息</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-Xloggc:filename</td>
+<td>把相关日志信息记录到文件以便分析. 与上面几个配合使用</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-XX:+PrintClassHistogram</td>
+<td>garbage collects before printing the histogram.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-XX:+PrintTLAB</td>
+<td>查看TLAB空间的使用情况</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>XX:+PrintTenuringDistribution</td>
+<td>查看每次minor GC后新的存活周期的阈值</td>
+<td></td>
+<td>Desired survivor size 1048576 bytes, new threshold 7 (max 15) new threshold 7即标识新的存活周期的阈值为7。</td>
+</tr>
+</tbody></table>
+<h1 id="6、主要工具"><a href="#6、主要工具" class="headerlink" title="6、主要工具"></a>6、主要工具</h1><h2 id="6-1、JDK工具"><a href="#6-1、JDK工具" class="headerlink" title="6.1、JDK工具"></a>6.1、JDK工具</h2><p>JDK自带了很多性能监控工具，我们可以用这些工具来监测系统和排查内存性能问题。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/3ae1b6aaef7356b1cf4a8a5562af172c.png" alt="JDK自带工具"></p>
+<h2 id="6-2、Linux-命令行工具"><a href="#6-2、Linux-命令行工具" class="headerlink" title="6.2、Linux 命令行工具"></a>6.2、Linux 命令行工具</h2><p>进行性能监控和问题排查的时候，常常是结合操作系统本身的命令行工具来进行。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>top</td>
+<td>实时显示正在执行进程的 CPU 使用率、内存使用率以及系统负载等信息</td>
+</tr>
+<tr>
+<td>vmstat</td>
+<td>对操作系统的虚拟内存、进程、CPU活动进行监控</td>
+</tr>
+<tr>
+<td>pidstat</td>
+<td>监控指定进程的上下文切换</td>
+</tr>
+<tr>
+<td>iostat</td>
+<td>监控磁盘IO</td>
+</tr>
+</tbody></table>
+<p>其它还有一些第三方的监控工具，同样是性能分析和故障排查的利器，如<strong>MAT</strong>、<strong>GChisto</strong>、<strong>JProfiler</strong>、<strong>arthas</strong>。</p>
+<h1 id="7、常用调优策略"><a href="#7、常用调优策略" class="headerlink" title="7、常用调优策略"></a>7、常用调优策略</h1><p>这里还是要提一下，及时确定要进行JVM调优，也不要陷入“知见障”，进行分析之后，发现可以通过优化程序提升性能，仍然首选优化程序。</p>
+<h2 id="7-1、选择合适的垃圾回收器"><a href="#7-1、选择合适的垃圾回收器" class="headerlink" title="7.1、选择合适的垃圾回收器"></a>7.1、选择合适的垃圾回收器</h2><p>CPU单核，那么毫无疑问Serial 垃圾收集器是你唯一的选择。</p>
+<p>CPU多核，关注吞吐量 ，那么选择PS+PO组合。</p>
+<p>CPU多核，关注用户停顿时间，JDK版本1.6或者1.7，那么选择CMS。</p>
+<p>CPU多核，关注用户停顿时间，JDK1.8及以上，JVM可用内存6G以上，那么选择G1。</p>
+<p>参数配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置Serial垃圾收集器（新生代）</span></span><br><span class="line">开启：-XX:+UseSerialGC</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置PS+PO,新生代使用功能Parallel Scavenge 老年代将会使用Parallel Old收集器</span></span><br><span class="line">开启 -XX:+UseParallelOldGC</span><br><span class="line"></span><br><span class="line"><span class="comment">//CMS垃圾收集器（老年代）</span></span><br><span class="line">开启 -XX:+UseConcMarkSweepGC</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置G1垃圾收集器</span></span><br><span class="line">开启 -XX:+UseG1GC</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-2、调整内存大小"><a href="#7-2、调整内存大小" class="headerlink" title="7.2、调整内存大小"></a>7.2、调整内存大小</h2><p>现象：垃圾收集频率非常频繁。</p>
+<p>原因：如果内存太小，就会导致频繁的需要进行垃圾收集才能释放出足够的空间来创建新的对象，所以增加堆内存大小的效果是非常显而易见的。</p>
+<p>注意：如果垃圾收集次数非常频繁，但是每次能回收的对象非常少，那么这个时候并非内存太小，而可能是内存泄露导致对象无法回收，从而造成频繁GC。</p>
+<p>参数配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置堆初始值</span></span><br><span class="line">指令<span class="number">1</span>：-Xms2g</span><br><span class="line">指令<span class="number">2</span>：-XX:InitialHeapSize=2048m</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置堆区最大值</span></span><br><span class="line">指令<span class="number">1</span>：`-Xmx2g` </span><br><span class="line">指令<span class="number">2</span>： -XX:MaxHeapSize=2048m</span><br><span class="line"></span><br><span class="line"><span class="comment">//新生代内存配置</span></span><br><span class="line">指令<span class="number">1</span>：-Xmn512m</span><br><span class="line">指令<span class="number">2</span>：-XX:MaxNewSize=512m</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-3、设置符合预期的停顿时间"><a href="#7-3、设置符合预期的停顿时间" class="headerlink" title="7.3、设置符合预期的停顿时间"></a>7.3、设置符合预期的停顿时间</h2><p>现象：程序间接性的卡顿</p>
+<p>原因：如果没有确切的停顿时间设定，垃圾收集器以吞吐量为主，那么垃圾收集时间就会不稳定。</p>
+<p>注意：不要设置不切实际的停顿时间，单次时间越短也意味着需要更多的GC次数才能回收完原有数量的垃圾.</p>
+<p>参数配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//GC停顿时间，垃圾收集器会尝试用各种手段达到这个时间</span></span><br><span class="line">-XX:MaxGCPauseMillis </span><br></pre></td></tr></table></figure>
+
+<h2 id="7-4、调整内存区域大小比率"><a href="#7-4、调整内存区域大小比率" class="headerlink" title="7.4、调整内存区域大小比率"></a>7.4、调整内存区域大小比率</h2><p>现象：某一个区域的GC频繁，其他都正常。</p>
+<p>原因：如果对应区域空间不足，导致需要频繁GC来释放空间，在JVM堆内存无法增加的情况下，可以调整对应区域的大小比率。</p>
+<p>注意：也许并非空间不足，而是因为内存泄造成内存无法回收。从而导致GC频繁。</p>
+<p>参数配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//survivor区和Eden区大小比率</span></span><br><span class="line">指令：-XX:SurvivorRatio=<span class="number">6</span>  <span class="comment">//S区和Eden区占新生代比率为1:6,两个S区2:6</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//新生代和老年代的占比</span></span><br><span class="line">-XX:NewRatio=<span class="number">4</span>  <span class="comment">//表示新生代:老年代 = 1:4 即老年代占整个堆的4/5；默认值=2</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="7-5、调整对象升老年代的年龄"><a href="#7-5、调整对象升老年代的年龄" class="headerlink" title="7.5、调整对象升老年代的年龄"></a>7.5、调整对象升老年代的年龄</h2><p>现象：老年代频繁GC，每次回收的对象很多。</p>
+<p>原因：如果升代年龄小，新生代的对象很快就进入老年代了，导致老年代对象变多，而这些对象其实在随后的很短时间内就可以回收，这时候可以调整对象的升级代年龄，让对象不那么容易进入老年代解决老年代空间不足频繁GC问题。</p>
+<p>注意：增加了年龄之后，这些对象在新生代的时间会变长可能导致新生代的GC频率增加，并且频繁复制这些对象新生的GC时间也可能变长。</p>
+<p>配置参数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//进入老年代最小的GC年龄,年轻代对象转换为老年代对象最小年龄值，默认值7</span></span><br><span class="line"> -XX:InitialTenuringThreshol=<span class="number">7</span> </span><br></pre></td></tr></table></figure>
+
+<h2 id="7-6、调整大对象的标准"><a href="#7-6、调整大对象的标准" class="headerlink" title="7.6、调整大对象的标准"></a>7.6、调整大对象的标准</h2><p>现象：老年代频繁GC，每次回收的对象很多,而且单个对象的体积都比较大。</p>
+<p>原因：如果大量的大对象直接分配到老年代，导致老年代容易被填满而造成频繁GC，可设置对象直接进入老年代的标准。</p>
+<p>注意：这些大对象进入新生代后可能会使新生代的GC频率和时间增加。</p>
+<p>配置参数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//新生代可容纳的最大对象,大于则直接会分配到老年代，0代表没有限制。</span></span><br><span class="line"> -XX:PretenureSizeThreshold=<span class="number">1000000</span> </span><br></pre></td></tr></table></figure>
+
+<h2 id="7-7、调整GC的触发时机"><a href="#7-7、调整GC的触发时机" class="headerlink" title="7.7、调整GC的触发时机"></a>7.7、调整GC的触发时机</h2><p>现象：CMS，G1 经常 Full GC，程序卡顿严重。</p>
+<p>原因：G1和CMS 部分GC阶段是并发进行的，业务线程和垃圾收集线程一起工作，也就说明垃圾收集的过程中业务线程会生成新的对象，所以在GC的时候需要预留一部分内存空间来容纳新产生的对象，如果这个时候内存空间不足以容纳新产生的对象，那么JVM就会停止并发收集暂停所有业务线程（STW）来保证垃圾收集的正常运行。这个时候可以调整GC触发的时机（比如在老年代占用60%就触发GC），这样就可以预留足够的空间来让业务线程创建的对象有足够的空间分配。</p>
+<p>注意：提早触发GC会增加老年代GC的频率。</p>
+<p>配置参数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用多少比例的老年代后开始CMS收集，默认是68%，如果频繁发生SerialOld卡顿，应该调小</span></span><br><span class="line">-XX:CMSInitiatingOccupancyFraction</span><br><span class="line"></span><br><span class="line"><span class="comment">//G1混合垃圾回收周期中要包括的旧区域设置占用率阈值。默认占用率为 65%</span></span><br><span class="line">-XX:G1MixedGCLiveThresholdPercent=<span class="number">65</span> </span><br></pre></td></tr></table></figure>
+
+<h2 id="7-8、调整-JVM本地内存大小"><a href="#7-8、调整-JVM本地内存大小" class="headerlink" title="7.8、调整 JVM本地内存大小"></a>7.8、调整 JVM本地内存大小</h2><p>现象：GC的次数、时间和回收的对象都正常，堆内存空间充足，但是报OOM</p>
+<p>原因： JVM除了堆内存之外还有一块堆外内存，这片内存也叫本地内存，可是这块内存区域不足了并不会主动触发GC，只有在堆内存区域触发的时候顺带会把本地内存回收了，而一旦本地内存分配不足就会直接报OOM异常。</p>
+<p>注意： 本地内存异常的时候除了上面的现象之外，异常信息可能是OutOfMemoryError：Direct buffer memory。 解决方式除了调整本地内存大小之外，也可以在出现此异常时进行捕获，手动触发GC（System.gc()）。</p>
+<p>配置参数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XX:MaxDirectMemorySize</span><br></pre></td></tr></table></figure>
+
+<h1 id="8、JVM调优实例"><a href="#8、JVM调优实例" class="headerlink" title="8、JVM调优实例"></a>8、JVM调优实例</h1><p>以下是整理自网络的一些JVM调优实例：</p>
+<h2 id="8-1、网站流量浏览量暴增后，网站反应页面响很慢"><a href="#8-1、网站流量浏览量暴增后，网站反应页面响很慢" class="headerlink" title="8.1、网站流量浏览量暴增后，网站反应页面响很慢"></a>8.1、网站流量浏览量暴增后，网站反应页面响很慢</h2><ol>
+<li>问题推测：在测试环境测速度比较快，但是一到生产就变慢，所以推测可能是因为垃圾收集导致的业务线程停顿。</li>
+<li>定位：为了确认推测的正确性，在线上通过jstat -gc 指令 看到JVM进行GC 次数频率非常高，GC所占用的时间非常长，所以基本推断就是因为GC频率非常高，所以导致业务线程经常停顿，从而造成网页反应很慢。</li>
+<li>解决方案：因为网页访问量很高，所以对象创建速度非常快，导致堆内存容易填满从而频繁GC，所以这里问题在于新生代内存太小，所以这里可以增加JVM内存就行了，所以初步从原来的2G内存增加到16G内存。</li>
+<li>第二个问题：增加内存后的确平常的请求比较快了，但是又出现了另外一个问题，就是不定期的会间断性的卡顿，而且单次卡顿的时间要比之前要长很多。</li>
+<li>问题推测：练习到是之前的优化加大了内存，所以推测可能是因为内存加大了，从而导致单次GC的时间变长从而导致间接性的卡顿。</li>
+<li>定位：还是通过jstat -gc 指令 查看到 的确FGC次数并不是很高，但是花费在FGC上的时间是非常高的,根据GC日志 查看到单次FGC的时间有达到几十秒的。</li>
+<li>解决方案： 因为JVM默认使用的是PS+PO的组合，PS+PO垃圾标记和收集阶段都是STW，所以内存加大了之后，需要进行垃圾回收的时间就变长了，所以这里要想避免单次GC时间过长，所以需要更换并发类的收集器，因为当前的JDK版本为1.7，所以最后选择CMS垃圾收集器，根据之前垃圾收集情况设置了一个预期的停顿的时间，上线后网站再也没有了卡顿问题。</li>
+</ol>
+<h2 id="8-2、后台导出数据引发的OOM"><a href="#8-2、后台导出数据引发的OOM" class="headerlink" title="8.2、后台导出数据引发的OOM"></a>8.2、后台导出数据引发的OOM</h2><p><strong>问题描述：</strong>   公司的后台系统，偶发性的引发OOM异常，堆内存溢出。</p>
+<ol>
+<li>因为是偶发性的，所以第一次简单的认为就是堆内存不足导致，所以单方面的加大了堆内存从4G调整到8G。</li>
+<li>但是问题依然没有解决，只能从堆内存信息下手，通过开启了-XX:+HeapDumpOnOutOfMemoryError参数 获得堆内存的dump文件。</li>
+<li>VisualVM 对 堆dump文件进行分析，通过VisualVM查看到占用内存最大的对象是String对象，本来想跟踪着String对象找到其引用的地方，但dump文件太大，跟踪进去的时候总是卡死，而String对象占用比较多也比较正常，最开始也没有认定就是这里的问题，于是就从线程信息里面找突破点。</li>
+<li>通过线程进行分析，先找到了几个正在运行的业务线程，然后逐一跟进业务线程看了下代码，发现有个引起我注意的方法，导出订单信息。</li>
+<li>因为订单信息导出这个方法可能会有几万的数据量，首先要从数据库里面查询出来订单信息，然后把订单信息生成excel，这个过程会产生大量的String对象。</li>
+<li>为了验证自己的猜想，于是准备登录后台去测试下，结果在测试的过程中发现到处订单的按钮前端居然没有做点击后按钮置灰交互事件，结果按钮可以一直点，因为导出订单数据本来就非常慢，使用的人员可能发现点击后很久后页面都没反应，结果就一直点，结果就大量的请求进入到后台，堆内存产生了大量的订单对象和EXCEL对象，而且方法执行非常慢，导致这一段时间内这些对象都无法被回收，所以最终导致内存溢出。</li>
+<li>知道了问题就容易解决了，最终没有调整任何JVM参数，只是在前端的导出订单按钮上加上了置灰状态，等后端响应之后按钮才可以进行点击，然后减少了查询订单信息的非必要字段来减少生成对象的体积，然后问题就解决了。</li>
+</ol>
+<h2 id="8-3、单个缓存数据过大导致的系统CPU飚高"><a href="#8-3、单个缓存数据过大导致的系统CPU飚高" class="headerlink" title="8.3、单个缓存数据过大导致的系统CPU飚高"></a>8.3、单个缓存数据过大导致的系统CPU飚高</h2><ol>
+<li>系统发布后发现CPU一直飚高到600%，发现这个问题后首先要做的是定位到是哪个应用占用CPU高，通过top 找到了对应的一个java应用占用CPU资源600%。</li>
+<li>如果是应用的CPU飚高，那么基本上可以定位可能是锁资源竞争，或者是频繁GC造成的。</li>
+<li>所以准备首先从GC的情况排查，如果GC正常的话再从线程的角度排查，首先使用jstat -gc PID 指令打印出GC的信息，结果得到得到的GC 统计信息有明显的异常，应用在运行了才几分钟的情况下GC的时间就占用了482秒，那么问这很明显就是频繁GC导致的CPU飚高。</li>
+<li>定位到了是GC的问题，那么下一步就是找到频繁GC的原因了，所以可以从两方面定位了，可能是哪个地方频繁创建对象，或者就是有内存泄露导致内存回收不掉。</li>
+<li>根据这个思路决定把堆内存信息dump下来看一下，使用jmap -dump 指令把堆内存信息dump下来（堆内存空间大的慎用这个指令否则容易导致会影响应用，因为我们的堆内存空间才2G所以也就没考虑这个问题了）。</li>
+<li>把堆内存信息dump下来后，就使用visualVM进行离线分析了，首先从占用内存最多的对象中查找，结果排名第三看到一个业务VO占用堆内存约10%的空间，很明显这个对象是有问题的。</li>
+<li>通过业务对象找到了对应的业务代码，通过代码的分析找到了一个可疑之处，这个业务对象是查看新闻资讯信息生成的对象，由于想提升查询的效率，所以把新闻资讯保存到了redis缓存里面，每次调用资讯接口都是从缓存里面获取。</li>
+<li>把新闻保存到redis缓存里面这个方式是没有问题的，有问题的是新闻的50000多条数据都是保存在一个key里面，这样就导致每次调用查询新闻接口都会从redis里面把50000多条数据都拿出来，再做筛选分页拿出10条返回给前端。50000多条数据也就意味着会产生50000多个对象，每个对象280个字节左右，50000个对象就有13.3M，这就意味着只要查看一次新闻信息就会产生至少13.3M的对象，那么并发请求量只要到10，那么每秒钟都会产生133M的对象，而这种大对象会被直接分配到老年代，这样的话一个2G大小的老年代内存，只需要几秒就会塞满，从而触发GC。</li>
+<li>知道了问题所在后那么就容易解决了，问题是因为单个缓存过大造成的，那么只需要把缓存减小就行了，这里只需要把缓存以页的粒度进行缓存就行了，每个key缓存10条作为返回给前端1页的数据，这样的话每次查询新闻信息只会从缓存拿出10条数据，就避免了此问题的 产生。</li>
+</ol>
+<h2 id="8-4、CPU经常100-问题定位"><a href="#8-4、CPU经常100-问题定位" class="headerlink" title="8.4、CPU经常100% 问题定位"></a>8.4、CPU经常100% 问题定位</h2><p>问题分析：CPU高一定是某个程序长期占用了CPU资源。</p>
+<ol>
+<li><p>所以先需要找出那个进行占用CPU高。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top  列出系统各个进程的资源占用情况。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后根据找到对应进行里哪个线程占用CPU高。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -Hp 进程ID   列出对应进程里面的线程占用资源情况</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>找到对应线程ID后，再打印出对应线程的堆栈信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">printf &quot;%x\n&quot;  PID    把线程ID转换为16进制。</span><br><span class="line">jstack PID 打印出进程的所有线程信息，从打印出来的线程信息中找到上一步转换为16进制的线程ID对应的线程信息。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后根据线程的堆栈信息定位到具体业务方法,从代码逻辑中找到问题所在。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">查看是否有线程长时间的watting 或blocked</span><br><span class="line">如果线程长期处于watting状态下， 关注watting on xxxxxx，说明线程在等待这把锁，然后根据锁的地址找到持有锁的线程。</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="8-5、内存飚高问题定位"><a href="#8-5、内存飚高问题定位" class="headerlink" title="8.5、内存飚高问题定位"></a>8.5、内存飚高问题定位</h2><p>分析： 内存飚高如果是发生在java进程上，一般是因为创建了大量对象所导致，持续飚高说明垃圾回收跟不上对象创建的速度，或者内存泄露导致对象无法回收。</p>
+<ol>
+<li><p>先观察垃圾回收的情况</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jstat -gc PID 1000 查看GC次数，时间等信息，每隔一秒打印一次。</span><br><span class="line">  </span><br><span class="line">jmap -histo PID | head -20   查看堆内存占用空间最大的前20个对象类型,可初步查看是哪个对象占用了内存。</span><br></pre></td></tr></table></figure>
+
+<p>如果每次GC次数频繁，而且每次回收的内存空间也正常，那说明是因为对象创建速度快导致内存一直占用很高；如果每次回收的内存非常少，那么很可能是因为内存泄露导致内存一直无法被回收。</p>
+</li>
+<li><p>导出堆内存文件快照</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:live,format=b,file=/home/myheapdump.hprof PID  dump堆内存信息到文件。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用visualVM对dump文件进行离线分析,找到占用内存高的对象，再找到创建该对象的业务代码位置，从代码和业务场景中定位具体问题。</p>
+</li>
+</ol>
+<h2 id="8-6、数据分析平台系统频繁-Full-GC"><a href="#8-6、数据分析平台系统频繁-Full-GC" class="headerlink" title="8.6、数据分析平台系统频繁 Full GC"></a>8.6、数据分析平台系统频繁 Full GC</h2><p>平台主要对用户在 App 中行为进行定时分析统计，并支持报表导出，使用 CMS GC 算法。</p>
+<p>数据分析师在使用中发现系统页面打开经常卡顿，通过 jstat 命令发现系统每次 Young GC 后大约有 10% 的存活对象进入老年代。</p>
+<p>原来是因为 Survivor 区空间设置过小，每次 Young GC 后存活对象在 Survivor 区域放不下，提前进入老年代。</p>
+<p>通过调大 Survivor 区，使得 Survivor 区可以容纳 Young GC 后存活对象，对象在 Survivor 区经历多次 Young GC 达到年龄阈值才进入老年代。</p>
+<p>调整之后每次 Young GC 后进入老年代的存活对象稳定运行时仅几百 Kb，Full GC 频率大大降低。</p>
+<h2 id="8-7、业务对接网关-OOM"><a href="#8-7、业务对接网关-OOM" class="headerlink" title="8.7、业务对接网关 OOM"></a>8.7、业务对接网关 OOM</h2><p>网关主要消费 Kafka 数据，进行数据处理计算然后转发到另外的 Kafka 队列，系统运行几个小时候出现 OOM，重启系统几个小时之后又 OOM。</p>
+<p>通过 jmap 导出堆内存，在 eclipse MAT 工具分析才找出原因：代码中将某个业务 Kafka 的 topic 数据进行日志异步打印，该业务数据量较大，大量对象堆积在内存中等待被打印，导致 OOM。</p>
+<h2 id="8-8、鉴权系统频繁长时间-Full-GC"><a href="#8-8、鉴权系统频繁长时间-Full-GC" class="headerlink" title="8.8、鉴权系统频繁长时间 Full GC"></a>8.8、鉴权系统频繁长时间 Full GC</h2><p>系统对外提供各种账号鉴权服务，使用时发现系统经常服务不可用，通过 Zabbix 的监控平台监控发现系统频繁发生长时间 Full GC，且触发时老年代的堆内存通常并没有占满，发现原来是业务代码中调用了 System.gc()。</p>
+<hr>
+<p><strong>参考：</strong></p>
+<p>【1】：周志明编著《深入理解Java虚拟机：JVM高级特性与最佳实践》</p>
+<p>【2】：《实战JAVA虚拟机 JVM故障诊断与性能优化》</p>
+<p>【3】：<a target="_blank" rel="noopener" href="https://www.choupangxia.com/2019/11/11/interview-jvm-gc-08/">JVM性能调优详解</a></p>
+<p>【4】：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903506093015053">如何合理的规划一次jvm性能调优</a></p>
+<p>【5】：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903953415536654">关于GC原理和性能调优实践，看这一篇就够了</a></p>
+<p>【6】：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/90766088">Java 应用性能调优实践</a></p>
+<p>【7】：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/269597178">JVM实战：JVM调优策略</a></p>
+<p>【8】：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/362201242">一般的Java项目需要JVM调优吗？</a></p>
+<p>【9】：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4ae227a86d68">Java8 JVM参数解读</a></p>
+<p>【10】：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/halberts/p/11918326.html">JVM参数设置-jdk8参数设置</a></p>
+<p>【11】：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903802378665997">JVM面试问题系列：JVM 配置常用参数和常用 GC 调优策略</a></p>
+<p>【12】：<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html">Java1.8的jvm参数官方网站地址</a></p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/Morty.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/Morty.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">SherlockerSun</div><div class="post-copyright__author_desc">是可爱汉堡包啦</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://example.com/2024/07/24/JVM%E8%B0%83%E4%BC%98/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://example.com/2024/07/24/JVM%E8%B0%83%E4%BC%98/')">JVM调优</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://example.com/2024/07/24/JVM%E8%B0%83%E4%BC%98/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=JVM调优&amp;url=http://example.com/2024/07/24/JVM%E8%B0%83%E4%BC%98/&amp;pic=https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/rick_and_morty_car_rainbow-t2.jpg?_r_=78b83e16-99cd-b209-d823-59adbc4b3930" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">SherlockerSun</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/Java/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Java<span class="tagsPageCount">2</span></a><a class="post-meta__box__tags" href="/tags/JVM/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>JVM<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>技术分享<span class="tagsPageCount">1</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/rick_and_morty_car_rainbow-t2.jpg?_r_=78b83e16-99cd-b209-d823-59adbc4b3930" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2024/07/15/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/rick_and_morty_car_rainbow-t2.jpg?_r_=00a49901-21ba-beed-a337-ce378f9639b6" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">面试总结</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>喜欢这篇文章的人也看了</span></div><div class="relatedPosts-list"><div><a href="/2024/07/15/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" title="面试总结"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/rick_and_morty_car_rainbow-t2.jpg?_r_=00a49901-21ba-beed-a337-ce378f9639b6" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-07-15</div><div class="title">面试总结</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="anzhiyufont anzhiyu-icon-comments"></i><span> 评论</span></div><div class="comment-randomInfo"><a onclick="anzhiyu.addRandomCommentInfo()" href="javascript:void(0)">匿名评论</a><a href="/privacy" style="margin-left: 4px">隐私政策</a></div></div><div class="comment-wrap"><div></div></div></div><div class="comment-barrage"></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/Morty.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/08/24/64e6ce9c507bb.png" alt="status"/></div></div><div class="author-info__description"><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">这有关于<b style="color:#fff">产品、设计、开发</b>相关的问题和看法，还有<b style="color:#fff">文章翻译</b>和<b style="color:#fff">分享</b>。</div><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">相信你可以在这里找到对你有用的<b style="color:#fff">知识</b>和<b style="color:#fff">教程</b>。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">SherlockerSun</h1><div class="author-info__desc">是可爱汉堡包啦</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/SherlockerSun" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/29505604" target="_blank" title="BiliBili"><i class="anzhiyufont anzhiyu-icon-bilibili"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81%E8%B0%83%E4%BC%98%E5%8E%9F%E5%88%99"><span class="toc-number">1.</span> <span class="toc-text">1、调优原则</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2%E3%80%81JVM%E8%B0%83%E4%BC%98%E7%9A%84%E6%97%B6%E6%9C%BA"><span class="toc-number">2.</span> <span class="toc-text">2、JVM调优的时机</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3%E3%80%81JVM%E8%B0%83%E4%BC%98%E7%9A%84%E7%9B%AE%E6%A0%87"><span class="toc-number">3.</span> <span class="toc-text">3、JVM调优的目标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4%E3%80%81JVM%E8%B0%83%E4%BC%98%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-number">4.</span> <span class="toc-text">4、JVM调优的步骤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E3%80%81JVM%E5%8F%82%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">5、JVM参数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1%E3%80%81%E5%9F%BA%E6%9C%AC%E5%8F%82%E6%95%B0"><span class="toc-number">5.1.</span> <span class="toc-text">5.1、基本参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2%E3%80%81%E5%B9%B6%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8%E7%9B%B8%E5%85%B3%E5%8F%82%E6%95%B0"><span class="toc-number">5.2.</span> <span class="toc-text">5.2、并行收集器相关参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3%E3%80%81CMS%E7%9B%B8%E5%85%B3%E5%8F%82%E6%95%B0"><span class="toc-number">5.3.</span> <span class="toc-text">5.3、CMS相关参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4%E3%80%81%E8%BE%85%E5%8A%A9%E4%BF%A1%E6%81%AF"><span class="toc-number">5.4.</span> <span class="toc-text">5.4、辅助信息</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6%E3%80%81%E4%B8%BB%E8%A6%81%E5%B7%A5%E5%85%B7"><span class="toc-number">6.</span> <span class="toc-text">6、主要工具</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1%E3%80%81JDK%E5%B7%A5%E5%85%B7"><span class="toc-number">6.1.</span> <span class="toc-text">6.1、JDK工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2%E3%80%81Linux-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7"><span class="toc-number">6.2.</span> <span class="toc-text">6.2、Linux 命令行工具</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7%E3%80%81%E5%B8%B8%E7%94%A8%E8%B0%83%E4%BC%98%E7%AD%96%E7%95%A5"><span class="toc-number">7.</span> <span class="toc-text">7、常用调优策略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1%E3%80%81%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="toc-number">7.1.</span> <span class="toc-text">7.1、选择合适的垃圾回收器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-2%E3%80%81%E8%B0%83%E6%95%B4%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F"><span class="toc-number">7.2.</span> <span class="toc-text">7.2、调整内存大小</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-3%E3%80%81%E8%AE%BE%E7%BD%AE%E7%AC%A6%E5%90%88%E9%A2%84%E6%9C%9F%E7%9A%84%E5%81%9C%E9%A1%BF%E6%97%B6%E9%97%B4"><span class="toc-number">7.3.</span> <span class="toc-text">7.3、设置符合预期的停顿时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-4%E3%80%81%E8%B0%83%E6%95%B4%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E5%A4%A7%E5%B0%8F%E6%AF%94%E7%8E%87"><span class="toc-number">7.4.</span> <span class="toc-text">7.4、调整内存区域大小比率</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-5%E3%80%81%E8%B0%83%E6%95%B4%E5%AF%B9%E8%B1%A1%E5%8D%87%E8%80%81%E5%B9%B4%E4%BB%A3%E7%9A%84%E5%B9%B4%E9%BE%84"><span class="toc-number">7.5.</span> <span class="toc-text">7.5、调整对象升老年代的年龄</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-6%E3%80%81%E8%B0%83%E6%95%B4%E5%A4%A7%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%A0%87%E5%87%86"><span class="toc-number">7.6.</span> <span class="toc-text">7.6、调整大对象的标准</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-7%E3%80%81%E8%B0%83%E6%95%B4GC%E7%9A%84%E8%A7%A6%E5%8F%91%E6%97%B6%E6%9C%BA"><span class="toc-number">7.7.</span> <span class="toc-text">7.7、调整GC的触发时机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-8%E3%80%81%E8%B0%83%E6%95%B4-JVM%E6%9C%AC%E5%9C%B0%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F"><span class="toc-number">7.8.</span> <span class="toc-text">7.8、调整 JVM本地内存大小</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8%E3%80%81JVM%E8%B0%83%E4%BC%98%E5%AE%9E%E4%BE%8B"><span class="toc-number">8.</span> <span class="toc-text">8、JVM调优实例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#8-1%E3%80%81%E7%BD%91%E7%AB%99%E6%B5%81%E9%87%8F%E6%B5%8F%E8%A7%88%E9%87%8F%E6%9A%B4%E5%A2%9E%E5%90%8E%EF%BC%8C%E7%BD%91%E7%AB%99%E5%8F%8D%E5%BA%94%E9%A1%B5%E9%9D%A2%E5%93%8D%E5%BE%88%E6%85%A2"><span class="toc-number">8.1.</span> <span class="toc-text">8.1、网站流量浏览量暴增后，网站反应页面响很慢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-2%E3%80%81%E5%90%8E%E5%8F%B0%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BC%95%E5%8F%91%E7%9A%84OOM"><span class="toc-number">8.2.</span> <span class="toc-text">8.2、后台导出数据引发的OOM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-3%E3%80%81%E5%8D%95%E4%B8%AA%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E8%BF%87%E5%A4%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E7%B3%BB%E7%BB%9FCPU%E9%A3%9A%E9%AB%98"><span class="toc-number">8.3.</span> <span class="toc-text">8.3、单个缓存数据过大导致的系统CPU飚高</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-4%E3%80%81CPU%E7%BB%8F%E5%B8%B8100-%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D"><span class="toc-number">8.4.</span> <span class="toc-text">8.4、CPU经常100% 问题定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-5%E3%80%81%E5%86%85%E5%AD%98%E9%A3%9A%E9%AB%98%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D"><span class="toc-number">8.5.</span> <span class="toc-text">8.5、内存飚高问题定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-6%E3%80%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%B9%B3%E5%8F%B0%E7%B3%BB%E7%BB%9F%E9%A2%91%E7%B9%81-Full-GC"><span class="toc-number">8.6.</span> <span class="toc-text">8.6、数据分析平台系统频繁 Full GC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-7%E3%80%81%E4%B8%9A%E5%8A%A1%E5%AF%B9%E6%8E%A5%E7%BD%91%E5%85%B3-OOM"><span class="toc-number">8.7.</span> <span class="toc-text">8.7、业务对接网关 OOM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-8%E3%80%81%E9%89%B4%E6%9D%83%E7%B3%BB%E7%BB%9F%E9%A2%91%E7%B9%81%E9%95%BF%E6%97%B6%E9%97%B4-Full-GC"><span class="toc-number">8.8.</span> <span class="toc-text">8.8、鉴权系统频繁长时间 Full GC</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/24/JVM%E8%B0%83%E4%BC%98/" title="JVM调优"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/rick_and_morty_car_rainbow-t2.jpg?_r_=78b83e16-99cd-b209-d823-59adbc4b3930" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM调优"/></a><div class="content"><a class="title" href="/2024/07/24/JVM%E8%B0%83%E4%BC%98/" title="JVM调优">JVM调优</a><time datetime="2024-07-24T01:44:15.000Z" title="发表于 2024-07-24 09:44:15">2024-07-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/15/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" title="面试总结"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/rick_and_morty_car_rainbow-t2.jpg?_r_=00a49901-21ba-beed-a337-ce378f9639b6" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面试总结"/></a><div class="content"><a class="title" href="/2024/07/15/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" title="面试总结">面试总结</a><time datetime="2024-07-15T08:17:40.000Z" title="发表于 2024-07-15 16:17:40">2024-07-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/10/hello-world/" title="Hello World"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/icon/rick_and_morty_car_rainbow-t2.jpg?_r_=b9424087-12e5-6380-a898-74db554f5f4b" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2024/07/10/hello-world/" title="Hello World">Hello World</a><time datetime="2024-07-10T01:04:06.339Z" title="发表于 2024-07-10 09:04:06">2024-07-10</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2024 By <a class="footer-bar-link" href="/" title="SherlockerSun" target="_blank">SherlockerSun</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">2</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://blog.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 总览</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/games/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 游戏页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/JVM/" style="font-size: 0.88rem;">JVM<sup>1</sup></a><a href="/tags/Java/" style="font-size: 0.88rem;">Java<sup>2</sup></a><a href="/tags/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" style="font-size: 0.88rem;">技术分享<sup>1</sup></a><a href="/tags/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" style="font-size: 0.88rem;">面试总结<sup>1</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="anzhiyufont anzhiyu-icon-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="anzhiyufont anzhiyu-icon-xmark"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.6.12",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 SherlockerSun 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><script src="https://cdn.cbd.int/algoliasearch@4.18.0/dist/algoliasearch-lite.umd.js"></script><script src="https://cdn.cbd.int/instantsearch.js@4.60.0/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script async src="//at.alicdn.com/t/c/font_4615842_imk1ubsph1.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>

@@ -4,31 +4,6 @@
   
     
     <entry>
-      <title>算法</title>
-      <link href="/2024/07/25/Hello%20%E7%AE%97%E6%B3%95/"/>
-      <url>/2024/07/25/Hello%20%E7%AE%97%E6%B3%95/</url>
-      
-        <content type="html"><![CDATA[<p><a href="https://www.hello-algo.com/">Hello 算法 (hello-algo.com)</a></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 技术分享 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 算法 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>SpringBoot整合Quartz</title>
       <link href="/2024/07/25/SpringBoot%E6%95%B4%E5%90%88Quartz/"/>
       <url>/2024/07/25/SpringBoot%E6%95%B4%E5%90%88Quartz/</url>

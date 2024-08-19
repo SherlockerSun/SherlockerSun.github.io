@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Hexo常用指令</title>
+      <link href="/2024/08/19/Hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/"/>
+      <url>/2024/08/19/Hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
+      
+        <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"/><h1 id="Hexo常用指令"><a href="#Hexo常用指令" class="headerlink" title="Hexo常用指令"></a>Hexo常用指令</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo cl&amp;&amp;hexo bangumi -u&amp;&amp;hexo game -u&amp;&amp;hexo ge&amp;&amp;hexo algolia&amp;&amp;hexo d&amp;&amp;hexo s</span><br></pre></td></tr></table></figure><h4 id="1、清空"><a href="#1、清空" class="headerlink" title="1、清空"></a>1、清空</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo cl</span><br></pre></td></tr></table></figure><h4 id="2、更新番剧数据"><a href="#2、更新番剧数据" class="headerlink" title="2、更新番剧数据"></a>2、更新番剧数据</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo bangumi -u</span><br></pre></td></tr></table></figure><h4 id="3、更新游戏数据"><a href="#3、更新游戏数据" class="headerlink" title="3、更新游戏数据"></a>3、更新游戏数据</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo game -u</span><br></pre></td></tr></table></figure><h4 id="4、构建hexo页面"><a href="#4、构建hexo页面" class="headerlink" title="4、构建hexo页面"></a>4、构建hexo页面</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo ge</span><br></pre></td></tr></table></figure><h4 id="5、更新algolia搜索数据"><a href="#5、更新algolia搜索数据" class="headerlink" title="5、更新algolia搜索数据"></a>5、更新algolia搜索数据</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo algolia</span><br></pre></td></tr></table></figure><h4 id="6、发布"><a href="#6、发布" class="headerlink" title="6、发布"></a>6、发布</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure><h4 id="7、本地部署"><a href="#7、本地部署" class="headerlink" title="7、本地部署"></a>7、本地部署</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+            <tag> 技术分享 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>【Pixelmon】宝可梦培育攻略</title>
       <link href="/2024/08/19/Pixelmon%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/"/>
       <url>/2024/08/19/Pixelmon%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/</url>
@@ -49,9 +76,9 @@
       
         <tags>
             
-            <tag> Java </tag>
-            
             <tag> 技术分享 </tag>
+            
+            <tag> Java </tag>
             
             <tag> SpringBoot </tag>
             
@@ -78,9 +105,9 @@
       
         <tags>
             
-            <tag> Java </tag>
-            
             <tag> 技术分享 </tag>
+            
+            <tag> Java </tag>
             
             <tag> Springboot </tag>
             
@@ -167,11 +194,11 @@
       
         <tags>
             
+            <tag> 技术分享 </tag>
+            
             <tag> Java </tag>
             
             <tag> JVM </tag>
-            
-            <tag> 技术分享 </tag>
             
         </tags>
       

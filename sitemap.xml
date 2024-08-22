@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.com/2024/08/19/%E3%80%90Pixelmon%E3%80%91%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/</loc>
+    
+    <lastmod>2024-08-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/2024/08/21/%E3%80%90Pixelmon%E3%80%91%E5%87%86%E7%A5%9E%E5%AE%9D%E5%8F%AF%E6%A2%A6/</loc>
     
     <lastmod>2024-08-22</lastmod>
@@ -14,15 +23,6 @@
     <loc>http://example.com/2024/08/20/%E3%80%90Pixelmon%E3%80%91%E6%8A%93%E5%AE%A0%E5%B7%A5%E5%85%B7%E5%AE%9D%E5%8F%AF%E6%A2%A6/</loc>
     
     <lastmod>2024-08-22</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/2024/08/19/%E3%80%90Pixelmon%E3%80%91%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/</loc>
-    
-    <lastmod>2024-08-21</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -169,20 +169,6 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/Java/</loc>
-    <lastmod>2024-08-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/JVM/</loc>
-    <lastmod>2024-08-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://example.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2024-08-22</lastmod>
     <changefreq>weekly</changefreq>
@@ -198,6 +184,20 @@
   
   <url>
     <loc>http://example.com/tags/SQL/</loc>
+    <lastmod>2024-08-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/Java/</loc>
+    <lastmod>2024-08-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/JVM/</loc>
     <lastmod>2024-08-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

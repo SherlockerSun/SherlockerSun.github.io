@@ -59,7 +59,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2024-08-22 17:18:59',
+  postUpdate: '2024-08-28 08:58:33',
   postMainColor: '',
 }</script><noscript><style type="text/css">
   #nav {
@@ -260,7 +260,21 @@ Hexo常用操作一、更新指令1、普通更新1hexo cl&amp;amp;&amp;amp;hexo
 oracle 要使用执行计划一般在 sqlplus 执行 sql：
 1explain plan for select 1 from t
 
-不过如果是使用 PLSQL 的话，那就可以使用 PLSQL 提供的查询执 ...</div><a class="blog-slider__button" href="2024/07/25/Oracle调优之看懂Oracle执行计划/" alt="Oracle调优之看懂Oracle执行计划">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/07/24/JVM调优/" title="JVM调优"><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/JVM%E8%B0%83%E4%BC%98.png" alt="图片" onerror="this.src=undefined; this.onerror = null;"></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-24</span><a class="blog-slider__title" href="2024/07/24/JVM调优/" alt="JVM调优">JVM调优</a><div class="blog-slider__text">
+不过如果是使用 PLSQL 的话，那就可以使用 PLSQL 提供的查询执 ...</div><a class="blog-slider__button" href="2024/07/25/Oracle调优之看懂Oracle执行计划/" alt="Oracle调优之看懂Oracle执行计划">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" title="SpringBoot整合EMQX（MQTT协议）"><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/EMQX.png" alt="图片" onerror="this.src=undefined; this.onerror = null;"></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-25</span><a class="blog-slider__title" href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" alt="SpringBoot整合EMQX（MQTT协议）">SpringBoot整合EMQX（MQTT协议）</a><div class="blog-slider__text">
+
+SpringBoot整合EMQX（MQTT协议）
+原文：springboot当中使用EMQX（MQTT协议）
+
+1、MQTT协议1.1、MQTT简介MQTT 全称为 Message Queuing Telemetry Transport（消息队列遥测传输），是一种基于 发布&amp;#x2F;订阅 模式的 轻量级物联网消息传输协议。IBM 公司的安迪·斯坦福-克拉克及 Arcom 公司的阿兰·尼普于 1999 年撰写了该协议的第一个版本1，之后 MQTT 便以简单易实现、支持 QoS、轻量且省带宽等众多特性逐渐成为了 IoT 通讯的标准。
+MQTT 协议每个消息最少仅需 2 个字节 （其中报头仅需 1 个字节，其余字节可以全部作为消息载荷）就可以完成通信，专为那些资源和空间有限、功耗敏感的硬件所打造。
+1.2、MQTT 协议基本特点
+使用发布&amp;#x2F;订阅消息模式，提供了一对多的消息分发和应用程序的解耦。
+不关心负载内容的消息传输。
+提供 3 种消息服务质量等级，满足不同投递需求。
+很小的传输消耗和协议数据交换，最大限度减少网络流量。
+提供连接异常断开时通知相关各方的机制。
+
+1.3、M ...</div><a class="blog-slider__button" href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" alt="SpringBoot整合EMQX（MQTT协议）">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/07/24/JVM调优/" title="JVM调优"><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/JVM%E8%B0%83%E4%BC%98.png" alt="图片" onerror="this.src=undefined; this.onerror = null;"></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-24</span><a class="blog-slider__title" href="2024/07/24/JVM调优/" alt="JVM调优">JVM调优</a><div class="blog-slider__text">
 
 
 原文：【JVM进阶之路】十：JVM调优总结
@@ -287,21 +301,7 @@ GC 停顿时间过长（超过1秒）；
 低内存占用；
 高吞吐量;
 
-选择了其中两个，必然 ...</div><a class="blog-slider__button" href="2024/07/24/JVM调优/" alt="JVM调优">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" title="SpringBoot整合EMQX（MQTT协议）"><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/EMQX.png" alt="图片" onerror="this.src=undefined; this.onerror = null;"></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-25</span><a class="blog-slider__title" href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" alt="SpringBoot整合EMQX（MQTT协议）">SpringBoot整合EMQX（MQTT协议）</a><div class="blog-slider__text">
-
-SpringBoot整合EMQX（MQTT协议）
-原文：springboot当中使用EMQX（MQTT协议）
-
-1、MQTT协议1.1、MQTT简介MQTT 全称为 Message Queuing Telemetry Transport（消息队列遥测传输），是一种基于 发布&amp;#x2F;订阅 模式的 轻量级物联网消息传输协议。IBM 公司的安迪·斯坦福-克拉克及 Arcom 公司的阿兰·尼普于 1999 年撰写了该协议的第一个版本1，之后 MQTT 便以简单易实现、支持 QoS、轻量且省带宽等众多特性逐渐成为了 IoT 通讯的标准。
-MQTT 协议每个消息最少仅需 2 个字节 （其中报头仅需 1 个字节，其余字节可以全部作为消息载荷）就可以完成通信，专为那些资源和空间有限、功耗敏感的硬件所打造。
-1.2、MQTT 协议基本特点
-使用发布&amp;#x2F;订阅消息模式，提供了一对多的消息分发和应用程序的解耦。
-不关心负载内容的消息传输。
-提供 3 种消息服务质量等级，满足不同投递需求。
-很小的传输消耗和协议数据交换，最大限度减少网络流量。
-提供连接异常断开时通知相关各方的机制。
-
-1.3、M ...</div><a class="blog-slider__button" href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" alt="SpringBoot整合EMQX（MQTT协议）">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div><div id="topPostGroup"><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/08/19/Hexo常用操作/" title="Hexo常用操作"><span class="top-group-text">荐</span><img class="post_bg" alt="Hexo常用操作" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/picgo/202408191602572.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/08/19/Hexo常用操作/" title="Hexo常用操作">Hexo常用操作</a></div></div><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/07/25/Oracle调优之看懂Oracle执行计划/" title="Oracle调优之看懂Oracle执行计划"><span class="top-group-text">荐</span><img class="post_bg" alt="Oracle调优之看懂Oracle执行计划" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/Oracle%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%20.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/07/25/Oracle调优之看懂Oracle执行计划/" title="Oracle调优之看懂Oracle执行计划">Oracle调优之看懂Oracle执行计划</a></div></div><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/07/24/JVM调优/" title="JVM调优"><span class="top-group-text">荐</span><img class="post_bg" alt="JVM调优" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/JVM%E8%B0%83%E4%BC%98.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/07/24/JVM调优/" title="JVM调优">JVM调优</a></div></div><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" title="SpringBoot整合EMQX（MQTT协议）"><span class="top-group-text">荐</span><img class="post_bg" alt="SpringBoot整合EMQX（MQTT协议）" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/EMQX.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" title="SpringBoot整合EMQX（MQTT协议）">SpringBoot整合EMQX（MQTT协议）</a></div></div><div class="top-group-list-none"></div><div class="top-group-list-none"></div><div class="top-group-list-none"></div></div></div></div></div><script src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.js"></script><script>function initBlogSlider() {
+选择了其中两个，必然 ...</div><a class="blog-slider__button" href="2024/07/24/JVM调优/" alt="JVM调优">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div><div id="topPostGroup"><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/08/19/Hexo常用操作/" title="Hexo常用操作"><span class="top-group-text">荐</span><img class="post_bg" alt="Hexo常用操作" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/picgo/202408191602572.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/08/19/Hexo常用操作/" title="Hexo常用操作">Hexo常用操作</a></div></div><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/07/25/Oracle调优之看懂Oracle执行计划/" title="Oracle调优之看懂Oracle执行计划"><span class="top-group-text">荐</span><img class="post_bg" alt="Oracle调优之看懂Oracle执行计划" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/Oracle%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%20.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/07/25/Oracle调优之看懂Oracle执行计划/" title="Oracle调优之看懂Oracle执行计划">Oracle调优之看懂Oracle执行计划</a></div></div><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" title="SpringBoot整合EMQX（MQTT协议）"><span class="top-group-text">荐</span><img class="post_bg" alt="SpringBoot整合EMQX（MQTT协议）" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/EMQX.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" title="SpringBoot整合EMQX（MQTT协议）">SpringBoot整合EMQX（MQTT协议）</a></div></div><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/07/24/JVM调优/" title="JVM调优"><span class="top-group-text">荐</span><img class="post_bg" alt="JVM调优" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/JVM%E8%B0%83%E4%BC%98.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/07/24/JVM调优/" title="JVM调优">JVM调优</a></div></div><div class="top-group-list-none"></div><div class="top-group-list-none"></div><div class="top-group-list-none"></div></div></div></div></div><script src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.js"></script><script>function initBlogSlider() {
   var swiper = new Swiper(".blog-slider", {
     passiveListeners: true,
     spaceBetween: 30,
@@ -453,7 +453,7 @@ Hexo常用操作一、更新指令1、普通更新1hexo cl&amp;&amp;hexo ge&amp;
 
 二、新建文章1hexo new [title]
 
-文章头部信息12345678910111213---title: 标题date: 2024-08-19 15:17:40cover: 封面（750x349），需要上传到图床，网络图片会失效tags: - 标签categorie ...</div></div></div><div class="recent-post-item" onclick="pjax.loadUrl('/2024/08/19/%E3%80%90Pixelmon%E3%80%91%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/')"><div class="post_cover left"><a href="/2024/08/19/%E3%80%90Pixelmon%E3%80%91%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/" title="【Pixelmon】宝可梦培育攻略" style="display: flex;height: 100%;"><img class="post_bg" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/picgo/202408191518301.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Pixelmon】宝可梦培育攻略" style="pointer-events: none"></a></div><div class="recent-post-info"><div class="recent-post-info-top"><div class="recent-post-info-top-tips"><div class="article-categories-original">游戏攻略</div><a class="unvisited-post" href="/2024/08/19/%E3%80%90Pixelmon%E3%80%91%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/" title="【Pixelmon】宝可梦培育攻略">未读</a></div><a class="article-title" href="/2024/08/19/%E3%80%90Pixelmon%E3%80%91%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/" title="【Pixelmon】宝可梦培育攻略">【Pixelmon】宝可梦培育攻略</a></div><div class="article-meta-wrap"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days" style="font-size: 15px; display:none"></i><span class="article-meta-label">发表于</span><time datetime="2024-08-19T07:17:40.000Z" title="发表于 2024-08-19 15:17:40" time="2024-08-19 15:17:40">2024-08-19</time><time class="time_hidden" datetime="2024-08-22T09:16:20.318Z" title="更新于 2024-08-22 17:16:20" time="2024-08-22 17:16:20">2024-08-22</time></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/Pixelmon/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Pixelmon</span></a><a class="article-meta__tags" href="/tags/Minecraft/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Minecraft</span></a><a class="article-meta__tags" href="/tags/%E5%AE%9D%E5%8F%AF%E6%A2%A6/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>宝可梦</span></a><a class="article-meta__tags" href="/tags/%E6%B8%B8%E6%88%8F%E6%94%BB%E7%95%A5/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>游戏攻略</span></a></span><span class="article-meta"><span class="article-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-comments"></i><a class="twikoo-count" href="/2024/08/19/%E3%80%90Pixelmon%E3%80%91%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/#post-comment" tabindex="-1"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">
+文章头部信息12345678910111213---title: 标题date: 2024-08-19 15:17:40cover: 封面（750x349），需要上传到图床，网络图片会失效tags: - 标签categorie ...</div></div></div><div class="recent-post-item" onclick="pjax.loadUrl('/2024/08/19/%E3%80%90Pixelmon%E3%80%91%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/')"><div class="post_cover left"><a href="/2024/08/19/%E3%80%90Pixelmon%E3%80%91%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/" title="【Pixelmon】宝可梦培育攻略" style="display: flex;height: 100%;"><img class="post_bg" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/picgo/202408191518301.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Pixelmon】宝可梦培育攻略" style="pointer-events: none"></a></div><div class="recent-post-info"><div class="recent-post-info-top"><div class="recent-post-info-top-tips"><div class="article-categories-original">游戏攻略</div><a class="unvisited-post" href="/2024/08/19/%E3%80%90Pixelmon%E3%80%91%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/" title="【Pixelmon】宝可梦培育攻略">未读</a></div><a class="article-title" href="/2024/08/19/%E3%80%90Pixelmon%E3%80%91%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/" title="【Pixelmon】宝可梦培育攻略">【Pixelmon】宝可梦培育攻略</a></div><div class="article-meta-wrap"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days" style="font-size: 15px; display:none"></i><span class="article-meta-label">发表于</span><time datetime="2024-08-19T07:17:40.000Z" title="发表于 2024-08-19 15:17:40" time="2024-08-19 15:17:40">2024-08-19</time><time class="time_hidden" datetime="2024-08-28T00:56:57.212Z" title="更新于 2024-08-28 08:56:57" time="2024-08-28 08:56:57">2024-08-28</time></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/Pixelmon/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Pixelmon</span></a><a class="article-meta__tags" href="/tags/Minecraft/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Minecraft</span></a><a class="article-meta__tags" href="/tags/%E5%AE%9D%E5%8F%AF%E6%A2%A6/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>宝可梦</span></a><a class="article-meta__tags" href="/tags/%E6%B8%B8%E6%88%8F%E6%94%BB%E7%95%A5/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>游戏攻略</span></a></span><span class="article-meta"><span class="article-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-comments"></i><a class="twikoo-count" href="/2024/08/19/%E3%80%90Pixelmon%E3%80%91%E5%AE%9D%E5%8F%AF%E6%A2%A6%E5%9F%B9%E8%82%B2%E6%94%BB%E7%95%A5/#post-comment" tabindex="-1"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">
 
 性格使用对战外技能【材料】有概率获得薄荷插穗，种植耕地上，破坏成熟的薄荷叶随机获得1种薄荷
 
@@ -461,47 +461,43 @@ Hexo常用操作一、更新指令1、普通更新1hexo cl&amp;&amp;hexo ge&amp;
 
 
 
-努力值使用对战外技能【头锤】有概率获得羽毛，或击败对应的宝可梦掉落
+努力值查看努力值指令1/evs &lt;1-6队伍位置&gt;
+
+
+携带物
+
+
+携带物
+效果
 
 
 
-属性
-洗点树果
-增强剂
-增强剂所需树果
-增强剂所需羽毛
-掉落羽毛宝可梦&#x2F;概率&#x2F;数量
+力量护腕
+携带后的宝可梦在战斗中击败宝可梦时会获得额外的 8 点攻击基本点数（努力值），但宝可梦的速度会降低一半。
 
 
-
-攻击
-藻根果
-攻击增强剂
-枝荔果
-肌力之羽
-葱游兵 &#x2F; 30% &#x2F; 1大王燕 &#x2F; 30% &#x2F; 1勇士雄鹰 &#x2F; 10% &#x2F; 1大葱鸭 &#x2F;10% &#x2F; 1
+力量腰带
+携带后的宝可梦在战斗中击败宝可梦时会获得额外的 8 点基本防御点数（努力值），但宝可梦的速度会降低一半。
 
 
-特攻
-哈密果
-特攻增强剂
-龙火果
-智力之羽
-大嘴鸥 &#x2F; 30% &#x2F; 1猫头夜鹰 &#x2F; 10% &#x2F; 1聒噪鸟 &#x2F; 10% &#x2F; 1
+力量镜
+携带后的宝可梦在战斗中击败宝可梦时会获得额外的 8 点特攻基本点数（努力值），但宝可梦的速度会降低一半。
 
 
-防御
-比巴果
-防御增强剂
-龙睛果
-抵抗之羽
-钢铠鸦 &#x2F; 30% &#x2F; 1 ~ 2大比鸟 &#x2F; 30% &#x2F; 1 ~ 2高傲雉鸡 &#x2F; 10% &#x2F; 1秃鹰娜 &#x2F; 10% &#x2F; 1
+力量负重
+携带后的宝可梦在战斗中击败宝可梦时会获得额外的 8 点 HP 基本点数（努力值），但宝可梦的速度会降低一半。
 
 
-特防
-萄葡果
-特防增强剂
- ...</div></div></div><div class="recent-post-item" onclick="pjax.loadUrl('/2024/07/25/SpringBoot%E6%95%B4%E5%90%88Quartz/')"><div class="post_cover left"><a href="/2024/07/25/SpringBoot%E6%95%B4%E5%90%88Quartz/" title="SpringBoot整合Quartz" style="display: flex;height: 100%;"><img class="post_bg" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/Quartz.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SpringBoot整合Quartz" style="pointer-events: none"></a></div><div class="recent-post-info"><div class="recent-post-info-top"><div class="recent-post-info-top-tips"><div class="article-categories-original">技术分享</div><a class="unvisited-post" href="/2024/07/25/SpringBoot%E6%95%B4%E5%90%88Quartz/" title="SpringBoot整合Quartz">未读</a></div><a class="article-title" href="/2024/07/25/SpringBoot%E6%95%B4%E5%90%88Quartz/" title="SpringBoot整合Quartz">SpringBoot整合Quartz</a></div><div class="article-meta-wrap"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days" style="font-size: 15px; display:none"></i><span class="article-meta-label">发表于</span><time datetime="2024-07-25T05:12:06.000Z" title="发表于 2024-07-25 13:12:06" time="2024-07-25 13:12:06">2024-07-25</time><time class="time_hidden" datetime="2024-08-05T05:13:06.721Z" title="更新于 2024-08-05 13:13:06" time="2024-08-05 13:13:06">2024-08-05</time></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>技术分享</span></a><a class="article-meta__tags" href="/tags/Java/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Java</span></a><a class="article-meta__tags" href="/tags/SpringBoot/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>SpringBoot</span></a></span><span class="article-meta"><span class="article-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-comments"></i><a class="twikoo-count" href="/2024/07/25/SpringBoot%E6%95%B4%E5%90%88Quartz/#post-comment" tabindex="-1"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">
+力量束带
+携带后的宝可梦在战斗中击败宝可梦时会获得额外的 8 点特防基本点数（努力值），但宝可梦的速度会降低一半。
+
+
+力量护踝
+携带后的宝可梦在战斗中击败宝可梦时会获得额外的 8 点速度基本点数（努力值），但在战斗中宝可梦的速度会降低一半。
+
+
+强制锻炼器
+携带后的宝可梦在打败宝可梦时获得的基础点数（ ...</div></div></div><div class="recent-post-item" onclick="pjax.loadUrl('/2024/07/25/SpringBoot%E6%95%B4%E5%90%88Quartz/')"><div class="post_cover left"><a href="/2024/07/25/SpringBoot%E6%95%B4%E5%90%88Quartz/" title="SpringBoot整合Quartz" style="display: flex;height: 100%;"><img class="post_bg" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/Quartz.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SpringBoot整合Quartz" style="pointer-events: none"></a></div><div class="recent-post-info"><div class="recent-post-info-top"><div class="recent-post-info-top-tips"><div class="article-categories-original">技术分享</div><a class="unvisited-post" href="/2024/07/25/SpringBoot%E6%95%B4%E5%90%88Quartz/" title="SpringBoot整合Quartz">未读</a></div><a class="article-title" href="/2024/07/25/SpringBoot%E6%95%B4%E5%90%88Quartz/" title="SpringBoot整合Quartz">SpringBoot整合Quartz</a></div><div class="article-meta-wrap"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days" style="font-size: 15px; display:none"></i><span class="article-meta-label">发表于</span><time datetime="2024-07-25T05:12:06.000Z" title="发表于 2024-07-25 13:12:06" time="2024-07-25 13:12:06">2024-07-25</time><time class="time_hidden" datetime="2024-08-05T05:13:06.721Z" title="更新于 2024-08-05 13:13:06" time="2024-08-05 13:13:06">2024-08-05</time></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>技术分享</span></a><a class="article-meta__tags" href="/tags/Java/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Java</span></a><a class="article-meta__tags" href="/tags/SpringBoot/" event.cancelbubble onclick="window.event.cancelBubble=true;"><span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>SpringBoot</span></a></span><span class="article-meta"><span class="article-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-comments"></i><a class="twikoo-count" href="/2024/07/25/SpringBoot%E6%95%B4%E5%90%88Quartz/#post-comment" tabindex="-1"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">
 
 SpringBoot整合Quartz定时任务
 原文：SpringBoot整合Quartz

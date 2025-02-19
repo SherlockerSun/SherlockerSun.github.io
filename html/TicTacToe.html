@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>新版井字棋</title>
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+            margin: 20px auto;
+            width: 310px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            border: 2px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .cell:hover {
+            background-color: #f0f0f0;
+        }
+        #status {
+            text-align: center;
+            font-size: 24px;
+            margin: 20px;
+            color: #333;
+        }
+        #restart {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #restart:hover {
+            background-color: #45a049;
+        }
+        .x-mark { color: #e74c3c; }
+        .o-mark { color: #3498db; }
+    </style>
+</head>
+<body>
+<div id="status">当前玩家：X</div>
+<div class="board" id="board">
+    <div class="cell" data-cell-index="0"></div>
+    <div class="cell" data-cell-index="1"></div>
+    <div class="cell" data-cell-index="2"></div>
+    <div class="cell" data-cell-index="3"></div>
+    <div class="cell" data-cell-index="4"></div>
+    <div class="cell" data-cell-index="5"></div>
+    <div class="cell" data-cell-index="6"></div>
+    <div class="cell" data-cell-index="7"></div>
+    <div class="cell" data-cell-index="8"></div>
+</div>
+<button id="restart" onclick="restartGame()">重新开始</button>
+
+<script>
+    let currentPlayer = 'X';
+    let currentX = [];
+    let currentO = [];
+    let gameActive = true;
+    const winCombos = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // 行
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // 列
+        [0, 4, 8], [2, 4, 6] // 对角线
+    ];
+    const cells = document.querySelectorAll('.cell');
+
+    cells.forEach(cell => {
+        cell.addEventListener('click', handleCellClick);
+    });
+
+    function handleCellClick(e) {
+        if (!gameActive) return;
+
+        const cell = e.target;
+        const index = parseInt(cell.getAttribute('data-cell-index'));
+
+        // 检查格子是否已被占用
+        if (currentX.includes(index) || currentO.includes(index)) return;
+
+        const currentArray = currentPlayer === 'X' ? currentX : currentO;
+        currentArray.push(index);
+
+        // 更新界面并切换玩家
+        updateBoard();
+
+        // 检查胜利条件，延迟提示胜利
+        if (checkWin(currentArray)) {
+            setTimeout(() => {
+                gameActive = false;
+                document.getElementById('status').textContent = `玩家 ${currentPlayer} 获胜！`;
+                highlightWinningCombo(currentArray);
+            }, 100); // 延迟100毫秒提示胜利
+            return;
+        }
+
+        // 当当前玩家下第三颗棋子后，如果对方已有3颗棋子，提示并移除对方最早的一颗棋子
+        if (currentArray.length === 3) {
+            const opponentArray = currentPlayer === 'X' ? currentO : currentX;
+            if (opponentArray.length === 3) {
+                const removedIndex = opponentArray[0]; // 获取最早下的一颗棋子
+                const removedCell = document.querySelector(`[data-cell-index="${removedIndex}"]`);
+
+                // 提示即将被移除的棋子
+                removedCell.style.backgroundColor = '#ffc0cb'; // 粉色
+
+                // 延迟移除棋子，让玩家有时间看到提示
+                setTimeout(() => {
+                    opponentArray.shift(); // 移除棋子
+                    if (!currentX.includes(removedIndex) && !currentO.includes(removedIndex)) {
+                        removedCell.textContent = '';
+                        removedCell.style.backgroundColor = '#fff'; // 恢复背景颜色
+                    }
+                }, 1000); // 1秒后移除
+            }
+        }
+
+        // 切换玩家
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        document.getElementById('status').textContent = `当前玩家：${currentPlayer}`;
+    }
+
+
+
+    function checkWin(playerArray) {
+        return winCombos.some(combo => {
+            return combo.every(index => playerArray.includes(index));
+        });
+    }
+
+    function highlightWinningCombo(playerArray) {
+        winCombos.forEach(combo => {
+            if (combo.every(index => playerArray.includes(index))) {
+                combo.forEach(index => {
+                    document.querySelector(`[data-cell-index="${index}"]`)
+                        .style.backgroundColor = '#f9e79f';
+                });
+            }
+        });
+    }
+
+    function updateBoard() {
+        cells.forEach((cell, index) => {
+            cell.className = 'cell'; // 重置样式
+            if (currentX.includes(index)) {
+                cell.textContent = 'X';
+                cell.classList.add('x-mark');
+            } else if (currentO.includes(index)) {
+                cell.textContent = 'O';
+                cell.classList.add('o-mark');
+            }
+        });
+    }
+
+    function restartGame() {
+        currentX = [];
+        currentO = [];
+        currentPlayer = 'X';
+        gameActive = true;
+        document.getElementById('status').textContent = '当前玩家：X';
+        cells.forEach(cell => {
+            cell.textContent = '';
+            cell.style.backgroundColor = '#fff';
+        });
+    }
+</script>
+</body>
+</html>

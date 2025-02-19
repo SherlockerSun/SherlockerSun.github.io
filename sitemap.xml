@@ -187,27 +187,6 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/Java/</loc>
-    <lastmod>2025-02-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/JVM/</loc>
-    <lastmod>2025-02-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/SpringBoot/</loc>
-    <lastmod>2025-02-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://example.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2025-02-19</lastmod>
     <changefreq>weekly</changefreq>
@@ -229,6 +208,20 @@
   </url>
   
   <url>
+    <loc>http://example.com/tags/Java/</loc>
+    <lastmod>2025-02-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/JVM/</loc>
+    <lastmod>2025-02-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/tags/Springboot/</loc>
     <lastmod>2025-02-19</lastmod>
     <changefreq>weekly</changefreq>
@@ -243,14 +236,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/Minecraft/</loc>
-    <lastmod>2025-02-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/%E6%B8%B8%E6%88%8F%E6%94%BB%E7%95%A5/</loc>
+    <loc>http://example.com/tags/SpringBoot/</loc>
     <lastmod>2025-02-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -264,7 +250,21 @@
   </url>
   
   <url>
+    <loc>http://example.com/tags/Minecraft/</loc>
+    <lastmod>2025-02-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/tags/%E5%AE%9D%E5%8F%AF%E6%A2%A6/</loc>
+    <lastmod>2025-02-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/%E6%B8%B8%E6%88%8F%E6%94%BB%E7%95%A5/</loc>
     <lastmod>2025-02-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

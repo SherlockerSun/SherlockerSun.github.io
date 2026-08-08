@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="json">
+  <rect width="128" height="128" rx="28" fill="#1f2937"/>
+  <path d="M41 34c-10 0-16 7-16 17v9c0 5-3 8-8 8v12c5 0 8 3 8 8v9c0 10 6 17 16 17h10v-13h-8c-4 0-6-2-6-6v-9c0-7-3-11-8-12 5-2 8-6 8-13v-9c0-4 2-6 6-6h8V34H41z" fill="#60a5fa"/>
+  <path d="M87 34c10 0 16 7 16 17v9c0 5 3 8 8 8v12c-5 0-8 3-8 8v9c0 10-6 17-16 17H77v-13h8c4 0 6-2 6-6v-9c0-7 3-11 8-12-5-2-8-6-8-13v-9c0-4-2-6-6-6h-8V34h10z" fill="#34d399"/>
+  <circle cx="57" cy="74" r="5" fill="#fbbf24"/>
+  <circle cx="72" cy="74" r="5" fill="#fbbf24"/>
+</svg>

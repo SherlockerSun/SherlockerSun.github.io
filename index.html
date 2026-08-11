@@ -59,7 +59,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2026-08-11 08:51:19',
+  postUpdate: '2026-08-11 10:01:51',
   postMainColor: '',
 }</script><noscript><style type="text/css">
   #nav {
@@ -263,48 +263,46 @@ Bangumi 番组计划
 oracle 要使用执行计划一般在 sqlplus 执行 sql：
 1explain plan for select 1 from t
 
-不过如果是使用 PLSQL 的话，那就可以使用 PLSQL 提供的查询执 ...</div><a class="blog-slider__button" href="2024/07/25/Oracle调优之看懂Oracle执行计划/" alt="Oracle调优之看懂Oracle执行计划">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/07/24/JVM调优/" title="JVM调优"><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/JVM%E8%B0%83%E4%BC%98.png" alt="图片" onerror="this.src=undefined; this.onerror = null;"></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-24</span><a class="blog-slider__title" href="2024/07/24/JVM调优/" alt="JVM调优">JVM调优</a><div class="blog-slider__text">
+不过如果是使用 PLSQL 的话，那就可以使用 PLSQL 提供的查询执 ...</div><a class="blog-slider__button" href="2024/07/25/Oracle调优之看懂Oracle执行计划/" alt="Oracle调优之看懂Oracle执行计划">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/07/25/SpringBoot整合Quartz/" title="SpringBoot整合Quartz"><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/Quartz.png" alt="图片" onerror="this.src=undefined; this.onerror = null;"></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-25</span><a class="blog-slider__title" href="2024/07/25/SpringBoot整合Quartz/" alt="SpringBoot整合Quartz">SpringBoot整合Quartz</a><div class="blog-slider__text">
+
+SpringBoot整合Quartz定时任务
+原文：SpringBoot整合Quartz
+
+1、Quartz介绍1.1.简介
+官方网站：http://quartz-scheduler.org/
+
+Quartz 是 OpenSymphony 开源组织在 Job Scheduling 领域又一个开源项目，是完全由 Java 开发的一个开源任务日程管理系统，“任务进度管理器”就是一个在预先确定（被纳入日程）的时间到达时，负责执行（或者通知）其他软件组件的系统。Quartz 是一个开源的作业调度框架，它完全由 Java 写成，并设计用于 J2SE 和 J2EE 应用中，它提供了巨大的灵活性而不牺牲简单性。
+当定时任务愈加复杂时，使用 Spring 注解 @Schedule 已经不能满足业务需要。
+在项目开发中，经常需要定时任务来帮助我们来做一些内容，如定时派息、跑批对账、将任务纳入日程或者从日程中取消，开始，停止，暂停日程进度等。SpringBoot 中现在有两种方案可以选择，第一种是 SpringBoot 内置的方式简单注解就可以使用，当然如果需要更复杂的应用场景还是得 Quartz 上 ...</div><a class="blog-slider__button" href="2024/07/25/SpringBoot整合Quartz/" alt="SpringBoot整合Quartz">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/01/21/【Minecraft】最佳附魔组合/" title="【Minecraft】最佳附魔组合"><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/picgo/202501221323887.jpg" alt="图片" onerror="this.src=undefined; this.onerror = null;"></a><div class="blog-slider__content"><span class="blog-slider__code">2025-01-21</span><a class="blog-slider__title" href="2025/01/21/【Minecraft】最佳附魔组合/" alt="【Minecraft】最佳附魔组合">【Minecraft】最佳附魔组合</a><div class="blog-slider__text">
 
 
-原文：【JVM进阶之路】十：JVM调优总结
-合集：【JVM进阶之路】
-合集：【JVM调优总结】
+原文：我的世界最佳附魔组合
 
-1、调优原则JVM调优听起来很高大上，但是要认识到，JVM调优应该是Java性能优化的最后一颗子弹。
+概述Minecraft中共有十一种武器有最佳附魔搭配，分别是钻石剑、钻石镐、钻石斧、钻石锹、弩、弓、三叉戟、钻石头盔、钻石胸甲、钻石护腿、钻石靴，其中钻石镐、弩、三叉戟、钻石靴子都有两种最佳附魔搭配，玩家可以根据自己的需求来搭配不同的最佳附魔，让装备物尽其用。
+武器1、钻石剑
+锋利5，耐久3，横扫之刃3，击退2，火焰附加2，经验修补，抢夺3
 
-比较认可廖雪峰老师的观点，要认识到JVM调优不是常规手段，性能问题一般第一选择是优化程序，最后的选择才是进行JVM调优。
+小锋利比截肢杀手，亡灵杀手更加的有性价比。
 
-JVM的自动内存管理本来就是为了将开发人员从内存管理的泥潭里拉出来。即使不得不进行JVM调优，也绝对不能拍脑门就去调整参数，一定要全面监控，详细分析性能数据。
-2、JVM调优的时机不得不考虑进行JVM调优的是那些情况呢？
+2、弩
+耐久3，快速装填3，无限&amp;#x2F;经验修补，多重射击3&amp;#x2F;穿透4
 
-Heap内存（老年代）持续上涨达到设置的最大内存值；
-Full GC 次数频繁；
-GC 停顿时间过长（超过1秒）；
-应用出现OutOfMemory 等内存异常；
-应用中有使用本地缓存且占用大量内存空间；
-系统吞吐量与响应性能不高或下降。
+它的冲突附魔是无限和经验修补，多重射击和穿透，根据需求选择附魔。
 
-3、JVM调优的目标吞吐量、延迟、内存占用三者类似CAP，构成了一个不可能三角，只能选择其中两个进行调优，不可三者兼得。
+3、弓
+力量5，火矢，冲击2，耐久3，经验修补&amp;#x2F;无限
 
-延迟：GC低停顿和GC低频率；
-低内存占用；
-高吞吐量;
+它的冲突附魔是无限和经验修补，根据个人需求选择附魔。
 
-选择了其中两个，必然 ...</div><a class="blog-slider__button" href="2024/07/24/JVM调优/" alt="JVM调优">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" title="SpringBoot整合EMQX（MQTT协议）"><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/EMQX.png" alt="图片" onerror="this.src=undefined; this.onerror = null;"></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-25</span><a class="blog-slider__title" href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" alt="SpringBoot整合EMQX（MQTT协议）">SpringBoot整合EMQX（MQTT协议）</a><div class="blog-slider__text">
+4、三叉戟
+经验修补，耐久3，穿刺5，忠诚3，引雷(可将忠诚3、引雷替换成激流3)
 
-SpringBoot整合EMQX（MQTT协议）
-原文：springboot当中使用EMQX（MQTT协议）
+它的冲突附魔是激流和忠诚，引雷，所以三叉戟有两种玩法，引雷在雷雨天气召唤雷电去劈生物，激流可以在水中或者下雨的时候进行飞行位移。
 
-1、MQTT协议1.1、MQTT简介MQTT 全称为 Message Queuing Telemetry Transport（消息队列遥测传输），是一种基于 发布&amp;#x2F;订阅 模式的 轻量级物联网消息传输协议。IBM 公司的安迪·斯坦福-克拉克及 Arcom 公司的阿兰·尼普于 1999 年撰写了该协议的第一个版本1，之后 MQTT 便以简单易实现、支持 QoS、轻量且省带宽等众多特性逐渐成为了 IoT 通讯的标准。
-MQTT 协议每个消息最少仅需 2 个字节 （其中报头仅需 1 个字节，其余字节可以全部作为消息载荷）就可以完成通信，专为那些资源和空间有限、功耗敏感的硬件所打造。
-1.2、MQTT 协议基本特点
-使用发布&amp;#x2F;订阅消息模式，提供了一对多的消息分发和应用程序的解耦。
-不关心负载内容的消息传输。
-提供 3 种消息服务质量等级，满足不同投递需求。
-很小的传输消耗和协议数据交换，最大限度减少网络流量。
-提供连接异常断开时通知相关各方的机制。
+防具1、钻石头盔
+保护4，荆棘3，耐久3，经验修补，水下呼吸3，水下速掘
 
-1.3、M ...</div><a class="blog-slider__button" href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" alt="SpringBoot整合EMQX（MQTT协议）">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div><div id="topPostGroup"><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/08/19/Hexo常用操作/" title="Hexo常用操作"><span class="top-group-text">荐</span><img class="post_bg" alt="Hexo常用操作" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/picgo/202408191602572.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/08/19/Hexo常用操作/" title="Hexo常用操作">Hexo常用操作</a></div></div><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/07/25/Oracle调优之看懂Oracle执行计划/" title="Oracle调优之看懂Oracle执行计划"><span class="top-group-text">荐</span><img class="post_bg" alt="Oracle调优之看懂Oracle执行计划" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/Oracle%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%20.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/07/25/Oracle调优之看懂Oracle执行计划/" title="Oracle调优之看懂Oracle执行计划">Oracle调优之看懂Oracle执行计划</a></div></div><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/07/24/JVM调优/" title="JVM调优"><span class="top-group-text">荐</span><img class="post_bg" alt="JVM调优" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/JVM%E8%B0%83%E4%BC%98.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/07/24/JVM调优/" title="JVM调优">JVM调优</a></div></div><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" title="SpringBoot整合EMQX（MQTT协议）"><span class="top-group-text">荐</span><img class="post_bg" alt="SpringBoot整合EMQX（MQTT协议）" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/EMQX.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/07/25/SpringBoot整合EMQX（MQTT协议）/" title="SpringBoot整合EMQX（MQTT协议）">SpringBoot整合EMQX（MQTT协议）</a></div></div><div class="top-group-list-none"></div><div class="top-group-list-none"></div><div class="top-group-list-none"></div></div></div></div></div><script src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.js"></script><script>function initBlogSlider() {
+保 ...</div><a class="blog-slider__button" href="2025/01/21/【Minecraft】最佳附魔组合/" alt="【Minecraft】最佳附魔组合">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div><div id="topPostGroup"><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/08/19/Hexo常用操作/" title="Hexo常用操作"><span class="top-group-text">荐</span><img class="post_bg" alt="Hexo常用操作" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/picgo/202408191602572.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/08/19/Hexo常用操作/" title="Hexo常用操作">Hexo常用操作</a></div></div><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/07/25/Oracle调优之看懂Oracle执行计划/" title="Oracle调优之看懂Oracle执行计划"><span class="top-group-text">荐</span><img class="post_bg" alt="Oracle调优之看懂Oracle执行计划" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/Oracle%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%20.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/07/25/Oracle调优之看懂Oracle执行计划/" title="Oracle调优之看懂Oracle执行计划">Oracle调优之看懂Oracle执行计划</a></div></div><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2024/07/25/SpringBoot整合Quartz/" title="SpringBoot整合Quartz"><span class="top-group-text">荐</span><img class="post_bg" alt="SpringBoot整合Quartz" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/cover/Quartz.png" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2024/07/25/SpringBoot整合Quartz/" title="SpringBoot整合Quartz">SpringBoot整合Quartz</a></div></div><div class="top-group-list-item"><div class="post_cover left_radius"><a href="2025/01/21/【Minecraft】最佳附魔组合/" title="【Minecraft】最佳附魔组合"><span class="top-group-text">荐</span><img class="post_bg" alt="【Minecraft】最佳附魔组合" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://sherlockersun-images.oss-cn-hangzhou.aliyuncs.com/picgo/202501221323887.jpg" onerror="this.src=undefined; this.onerror = null;"></a></div><div class="top-group-info"><a class="article-title" href="2025/01/21/【Minecraft】最佳附魔组合/" title="【Minecraft】最佳附魔组合">【Minecraft】最佳附魔组合</a></div></div><div class="top-group-list-none"></div><div class="top-group-list-none"></div><div class="top-group-list-none"></div></div></div></div></div><script src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.js"></script><script>function initBlogSlider() {
   var swiper = new Swiper(".blog-slider", {
     passiveListeners: true,
     spaceBetween: 30,

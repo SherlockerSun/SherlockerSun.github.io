@@ -54,12 +54,12 @@
   configTitle: 'SherlockerSun',
   title: '小游戏',
   postAI: '',
-  pageFillDescription: '井字棋, 贪吃蛇井字棋循环落子版本双方最多保留三枚棋子快速对局更紧凑进入贪吃蛇方向键或控制移动吃到食物增长并累积分数进入',
+  pageFillDescription: '井字棋, 贪吃蛇, 蜘蛛纸牌井字棋循环落子版本双方最多保留三枚棋子快速对局更紧凑进入贪吃蛇方向键或控制移动吃到食物增长并累积分数进入蜘蛛纸牌单花色规则拖动或点选顺子完成到后自动收牌进入',
   isPost: false,
   isHome: false,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2026-08-08 15:36:41',
+  postUpdate: '2026-08-11 08:44:52',
   postMainColor: '',
 }</script><noscript><style type="text/css">
   #nav {
@@ -250,6 +250,18 @@ if (true) {
     </div>
     <span class="mini-game-action">进入</span>
   </a>
+
+  <a class="mini-game-card" href="/minigames/spider-solitaire/">
+    <div class="game-cover game-cover-spider" aria-hidden="true">
+      <span>K</span><span>Q</span><span>J</span><span></span><span></span>
+      <span>10</span><span>9</span><span></span><span>8</span><span></span>
+    </div>
+    <div class="mini-game-info">
+      <h2>蜘蛛纸牌</h2>
+      <p>单花色规则，拖动或点选顺子，完成 K 到 A 后自动收牌。</p>
+    </div>
+    <span class="mini-game-action">进入</span>
+  </a>
 </section>
 
 <style>
@@ -347,6 +359,40 @@ if (true) {
   .game-cover-snake i:nth-child(4) { left: 64px; top: 48px; background: #10b981; }
   .game-cover-snake b { left: 80px; top: 32px; background: #ef4444; border-radius: 50%; }
   .game-cover-snake em { left: 64px; top: 48px; box-shadow: 4px 4px 0 #052e1a; transform: scale(0.32); }
+
+  .game-cover-spider {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: start;
+    gap: 5px;
+    padding: 9px;
+    background:
+      linear-gradient(135deg, rgba(52, 211, 153, 0.22), transparent 55%),
+      #0f3b2d;
+  }
+
+  .game-cover-spider span {
+    display: grid;
+    place-items: start center;
+    height: 56px;
+    padding-top: 5px;
+    color: #111827;
+    background: #f8fafc;
+    border: 1px solid rgba(15, 23, 42, 0.2);
+    border-radius: 5px;
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  .game-cover-spider span:nth-child(4),
+  .game-cover-spider span:nth-child(5),
+  .game-cover-spider span:nth-child(8),
+  .game-cover-spider span:nth-child(10) {
+    background:
+      linear-gradient(45deg, rgba(255,255,255,0.14) 25%, transparent 25% 50%, rgba(255,255,255,0.14) 50% 75%, transparent 75%),
+      #1f2937;
+    background-size: 8px 8px;
+  }
 
   .mini-game-info h2 {
     margin: 0 0 6px;
